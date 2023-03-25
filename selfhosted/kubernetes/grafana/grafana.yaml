@@ -1,0 +1,102 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana
+spec:
+  rules:
+    - host: "grafana.{{ selfhosted_hostname }}"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+spec:
+  selector:
+    matchLabels:
+      app: grafana
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: grafana
+        - name: dashboard-wireguard
+          configMap:
+            name: grafana-dashboard-wireguard
+      containers:
+        - name: grafana
+          image: grafana/grafana-oss:9.4.7
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: grafana
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: config
+              subPath: datasources.yaml
+              mountPath: /etc/grafana/provisioning/datasources/datasources.yaml
+            - name: config
+              subPath: dashboards.yaml
+              mountPath: /etc/grafana/provisioning/dashboards/dashboards.yaml
+            - name: dashboard-wireguard
+              mountPath: /dashboards/wireguard
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana
+data:
+  datasources.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        uid: prometheus
+        url: http://prometheus
+        editable: false
+        isDefault: true
+  dashboards.yaml: |
+    apiVersion: 1
+    providers:
+      - name: Default
+        type: file
+        disableDeletion: true
+        allowUiUpdates: false
+        options:
+          path: /dashboards
+          foldersFromFilesStructure: false
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+spec:
+  selector:
+    app: grafana
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000

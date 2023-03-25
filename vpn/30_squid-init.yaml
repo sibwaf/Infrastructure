@@ -1,0 +1,17 @@
+- name: "Setup Squid server"
+  hosts: vpn
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Install squid"
+      ansible.builtin.package:
+        name: squid
+        state: present
+    - name: "Enable squid"
+      ansible.builtin.systemd:
+        name: squid
+        state: restarted
+        enabled: true

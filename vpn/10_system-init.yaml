@@ -1,0 +1,69 @@
+- name: "Configure system"
+  hosts: vpn
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Enable IP v4 forwarding in /etc/sysctl.d/50-ip-forwarding.conf"
+      ansible.posix.sysctl:
+        sysctl_file: /etc/sysctl.d/50-ip-forwarding.conf
+        name: net.ipv4.ip_forward
+        value: 1
+    - name: "Enable IP v6 forwarding in /etc/sysctl.d/50-ip-forwarding.conf"
+      ansible.posix.sysctl:
+        sysctl_file: /etc/sysctl.d/50-ip-forwarding.conf
+        name: net.ipv6.conf.all.forwarding
+        value: 1
+
+    - name: "Install epel-release"
+      ansible.builtin.package:
+        name: epel-release
+        state: present
+
+    - name: "Install iptables"
+      ansible.builtin.package:
+        name: iptables
+        state: present
+    - name: "Install iptables-services"
+      ansible.builtin.package:
+        name: iptables-services
+        state: present
+
+    - name: "Configure iptables v4 masquerading"
+      ansible.builtin.iptables:
+        ip_version: ipv4
+        table: nat
+        chain: POSTROUTING
+        out_interface: eth0
+        jump: MASQUERADE
+    - name: "Save iptables v4 configuration"
+      ansible.builtin.shell: iptables-save > /etc/sysconfig/iptables
+    - name: "Enable iptables.service"
+      ansible.builtin.systemd:
+        name: iptables
+        enabled: true
+    - name: "Configure iptables v6 masquerading"
+      ansible.builtin.iptables:
+        ip_version: ipv6
+        table: nat
+        chain: POSTROUTING
+        out_interface: eth0
+        jump: MASQUERADE
+    - name: "Save iptables v6 configuration"
+      ansible.builtin.shell: ip6tables-save > /etc/sysconfig/ip6tables
+    - name: "Enable ip6tables.service"
+      ansible.builtin.systemd:
+        name: ip6tables
+        enabled: true
+
+    - name: "Install prometheus-node-exporter"
+      ansible.builtin.package:
+        name: golang-github-prometheus-node-exporter
+        state: present
+    - name: "Enable prometheus-node-exporter"
+      ansible.builtin.systemd:
+        name: node_exporter
+        state: started
+        enabled: true

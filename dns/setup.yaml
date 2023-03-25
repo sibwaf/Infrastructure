@@ -1,0 +1,23 @@
+- name: "Setup DNS server"
+  hosts: dns
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Install unbound"
+      ansible.builtin.package:
+        name: unbound
+        state: present
+
+    - name: "Configure unbound.conf"
+      ansible.builtin.template:
+        src: resources/unbound.conf.j2
+        dest: /etc/unbound/unbound.conf
+
+    - name: "Enable and restart unbound.service"
+      ansible.builtin.systemd:
+        name: unbound
+        enabled: true
+        state: restarted

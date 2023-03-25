@@ -1,0 +1,66 @@
+- name: "Configure system"
+  hosts: selfhosted
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Create storage mount directory"
+      ansible.builtin.file:
+        path: "{{ selfhosted_storage_path }}"
+        state: directory
+    - name: "Configure storage drive mounting"
+      when: selfhosted_storage_partition_uuid is defined
+      ansible.posix.mount:
+        path: "{{ selfhosted_storage_path }}"
+        src: "PARTUUID={{ selfhosted_storage_partition_uuid }}"
+        fstype: exfat
+        opts: noauto,nofail,umask=0,x-systemd.automount,x-systemd.device-timeout=1ms
+        state: mounted
+
+    - name: "Create backup mount directory"
+      ansible.builtin.file:
+        path: "{{ selfhosted_backup_path }}"
+        state: directory
+    - name: "Configure storage drive mounting"
+      when: selfhosted_backup_partition_uuid is defined
+      ansible.posix.mount:
+        path: "{{ selfhosted_backup_path }}"
+        src: "PARTUUID={{ selfhosted_backup_partition_uuid }}"
+        fstype: exfat
+        opts: noauto,nofail,umask=0,x-systemd.automount,x-systemd.device-timeout=1ms
+        state: mounted
+
+    - name: "Install restic"
+      ansible.builtin.package:
+        name: restic
+        state: present
+    - name: "Setup service for restic"
+      ansible.builtin.copy:
+        src: resources/restic.service
+        dest: /etc/systemd/system/restic@.service
+    - name: "Setup timer for restic"
+      ansible.builtin.copy:
+        src: resources/restic.timer
+        dest: /etc/systemd/system/restic@.timer
+
+    - name: "Install prometheus-node-exporter"
+      ansible.builtin.package:
+        name: prometheus-node-exporter
+        state: present
+    - name: "Enable and start prometheus-node-exporter"
+      ansible.builtin.systemd:
+        name: prometheus-node-exporter
+        state: started
+        enabled: true
+
+    - name: "Configure dhcpcd"
+      ansible.builtin.template:
+        src: resources/dhcpcd.conf.j2
+        dest: /etc/dhcpcd.conf
+    - name: "Enable and restart dhcpcd"
+      ansible.builtin.systemd:
+        name: dhcpcd
+        state: restarted
+        enabled: true

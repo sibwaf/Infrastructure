@@ -1,0 +1,30 @@
+- name: "Setup prometheus_wireguard_exporter"
+  hosts: vpn
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Install cargo"
+      ansible.builtin.package:
+        name: cargo
+        state: present
+
+    - name: "Install prometheus_wireguard_exporter"
+      community.general.cargo:
+        name: prometheus_wireguard_exporter
+        version: "{{ vpn_wireguard_exporter_version }}"
+        path: /usr/local
+        state: present
+
+    - name: "Copy service for prometheus_wireguard_exporter"
+      ansible.builtin.copy:
+        src: resources/prometheus_wireguard_exporter.service
+        dest: /etc/systemd/system/prometheus_wireguard_exporter.service
+
+    - name: "Enable prometheus_wireguard_exporter.service"
+      ansible.builtin.systemd:
+        name: prometheus_wireguard_exporter
+        state: started
+        enabled: true

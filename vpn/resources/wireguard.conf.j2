@@ -1,0 +1,13 @@
+[Interface]
+Address = {{ vpn_subnet_prefix_ip4 }}{{ vpn_server_ip_suffix }}/32, {{ vpn_subnet_prefix_ip6 }}{{ vpn_server_ip_suffix | replace(".", ":") }}/128
+ListenPort = {{ vpn_port }}
+PrivateKey = {{ vpn_server_key }}
+
+{% for peer in vpn_peers %}
+[Peer]
+{% if peer.tags is defined %}
+# friendly_json = { {% for name, value in peer.tags | items %}"{{ name }}": "{{ value }}"{{ ", " if not loop.last else "" }}{% endfor %} }
+{% endif %}
+PublicKey = {{ peer.key }}
+AllowedIPs = {{ vpn_subnet_prefix_ip4 }}{{ peer.ip_suffix }}/32, {{ vpn_subnet_prefix_ip6 }}{{ peer.ip_suffix | replace(".", ":") }}/128
+{% endfor %}

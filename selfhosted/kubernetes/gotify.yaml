@@ -1,0 +1,88 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gotify
+spec:
+  rules:
+    - host: "gotify.{{ selfhosted_hostname }}"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: gotify
+                port:
+                  number: 80
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gotify
+spec:
+  storageClassName: app-data
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gotify
+spec:
+  selector:
+    matchLabels:
+      app: gotify
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gotify
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: gotify
+      containers:
+        - name: gotify
+          image: gotify/server-arm7:2.2.4
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: GOTIFY_DEFAULTUSER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: gotify-credentials
+                  key: username
+            - name: GOTIFY_DEFAULTUSER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: gotify-credentials
+                  key: password
+            - name: GOTIFY_REGISTRATION
+              value: "false"
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gotify
+spec:
+  selector:
+    app: gotify
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

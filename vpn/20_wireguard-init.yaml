@@ -1,0 +1,32 @@
+- name: "Setup WireGuard server"
+  hosts: vpn
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Add WireGuard repository"
+      ansible.builtin.get_url:
+        url: https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
+        dest: /etc/yum.repos.d/jdoss-wireguard-epel-7.repo
+
+    - name: "Install wireguard-dkms"
+      ansible.builtin.package:
+        name: wireguard-dkms
+        state: present
+    - name: "Install wireguard-tools"
+      ansible.builtin.package:
+        name: wireguard-tools
+        state: present
+
+    - name: "Generate Wireguard config"
+      ansible.builtin.template:
+        src: resources/wireguard.conf.j2
+        dest: /etc/wireguard/wg0.conf
+        mode: "700"
+    - name: "Enable wireguard service"
+      ansible.builtin.systemd:
+        name: wg-quick@wg0
+        state: restarted
+        enabled: true

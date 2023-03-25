@@ -1,0 +1,66 @@
+- name: "Configure Kubernetes cluster"
+  hosts: selfhosted
+
+  vars:
+    required_addons:
+      - dns
+      - ingress
+      - host-access
+      - hostpath-storage
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Create storage directory for Kubernetes"
+      ansible.builtin.file:
+        path: /var/lib/kubernetes-storage
+        state: directory
+
+    - name: "Install snapd"
+      ansible.builtin.package:
+        name: snapd
+        state: present
+
+    - name: "Install microk8s"
+      community.general.snap:
+        name: microk8s
+        state: present
+        classic: true
+    - name: "Check microk8s works"
+      ansible.builtin.command: /snap/bin/microk8s status --wait-ready
+      changed_when: false
+
+    - name: "Install microk8s extensions"
+      ansible.builtin.command: "/snap/bin/microk8s enable {{ required_addons | join(' ') }} "
+
+    - name: "Prepare backup repository"
+      block:
+        - name: "Check backup repository"
+          environment:
+            RESTIC_PASSWORD: "{{ selfhosted_backup_password }}"
+          ansible.builtin.command: "/usr/bin/restic -r '{{ selfhosted_backup_path }}' check"
+          changed_when: false
+      rescue:
+        - name: "Initialize backup repository"
+          environment:
+            RESTIC_PASSWORD: "{{ selfhosted_backup_password }}"
+          ansible.builtin.command: "/usr/bin/restic -r '{{ selfhosted_backup_path }}' init"
+    - name: "Ensure backup config directory exists"
+      ansible.builtin.file:
+        path: /etc/restic
+        state: directory
+    - name: "Setup backup environment"
+      ansible.builtin.template:
+        src: resources/restic_kubernetes.env.j2
+        dest: /etc/restic/kubernetes.env
+    - name: "Setup backup file list"
+      ansible.builtin.copy:
+        src: resources/restic_kubernetes.files
+        dest: /etc/restic/kubernetes.files
+    - name: "Enable backup timer"
+      ansible.builtin.systemd:
+        name: restic@kubernetes.timer
+        state: started
+        enabled: true

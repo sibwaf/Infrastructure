@@ -1,0 +1,10 @@
+[Unit]
+Description=Backup %I
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/restic backup --files-from /etc/restic/%I.files
+EnvironmentFile=/etc/restic/%I.env
+
+[Install]
+WantedBy=multi-user.target

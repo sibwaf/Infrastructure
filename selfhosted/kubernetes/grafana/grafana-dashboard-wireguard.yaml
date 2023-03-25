@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-wireguard
+data:
+  dashboard.json: |
+    {
+      "title": "Wireguard",
+      "uid": "wireguard",
+      "version": 1,
+      "editable": false,
+      "templating": {
+        "list": [
+          {
+            "name": "job",
+            "type": "query",
+            "definition": "label_values(wireguard_received_bytes_total, job)",
+            "includeAll": false,
+            "multi": false,
+            "query": {
+              "query": "label_values(wireguard_received_bytes_total, job)",
+              "refId": "StandardVariableQuery"
+            },
+            "current": {},
+            "refresh": 1,
+            "sort": 1
+          },
+          {
+            "name": "user_name",
+            "type": "query",
+            "definition": "label_values(wireguard_received_bytes_total, user_name)",
+            "includeAll": true,
+            "multi": false,
+            "query": {
+              "query": "label_values(wireguard_received_bytes_total, user_name)",
+              "refId": "StandardVariableQuery"
+            },
+            "current": {},
+            "refresh": 1,
+            "sort": 1
+          },
+          {
+            "name": "grouping",
+            "type": "custom",
+            "includeAll": false,
+            "multi": false,
+            "options": [
+              {
+                "selected": true,
+                "text": "user_name",
+                "value": "user_name"
+              },
+              {
+                "selected": false,
+                "text": "friendly_name",
+                "value": "friendly_name"
+              },
+              {
+                "selected": false,
+                "text": "allowed_ips",
+                "value": "allowed_ips"
+              },
+              {
+                "selected": false,
+                "text": "public_key",
+                "value": "public_key"
+              }
+            ],
+            "current": {
+              "selected": true,
+              "text": "user_name",
+              "value": "user_name"
+            }
+          }
+        ]
+      },
+      "panels": [
+        {
+          "title": "Total Data",
+          "type": "timeseries",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                }
+              },
+              "unit": "decbytes"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "expr": "sum(increase(wireguard_received_bytes_total{job=\"$job\",user_name=~\"$user_name\"}[$__range]) + increase(wireguard_sent_bytes_total{job=\"$job\",user_name=~\"$user_name\"}[$__range])) by ($grouping)"
+            }
+          ],
+          "timeFrom": "now/M",
+          "transformations": []
+        }
+      ]
+    }

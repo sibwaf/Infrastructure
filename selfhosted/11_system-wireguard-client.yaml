@@ -1,0 +1,41 @@
+- name: "Configure connection to Wireguard servers"
+  hosts: selfhosted
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Install wireguard"
+      ansible.builtin.package:
+        name: wireguard
+        state: present
+
+    - name: "Create Wireguard configurations"
+      loop: "{{ selfhosted_vpn_servers }}"
+      loop_control:
+        index_var: index
+      vars:
+        client_key: "{{ selfhosted_vpn_client_key }}"
+        ip4: "{{ item.ip4 }}"
+        ip4_subnet: "{{ item.ip4_subnet }}"
+        ip6: "{{ item.ip6 }}"
+        ip6_subnet: "{{ item.ip6_subnet }}"
+
+        dns: "{{ item.dns }}"
+
+        server_key: "{{ item.server_key }}"
+        endpoint: "{{ item.endpoint }}"
+      ansible.builtin.template:
+        src: resources/wireguard.conf.j2
+        dest: "/etc/wireguard/wg{{ index }}.conf"
+        mode: "700"
+
+    - name: "Enable systemd services"
+      loop: "{{ selfhosted_vpn_servers }}"
+      loop_control:
+        index_var: index
+      ansible.builtin.systemd:
+        name: "wg-quick@wg{{ index }}.service"
+        state: restarted
+        enabled: true

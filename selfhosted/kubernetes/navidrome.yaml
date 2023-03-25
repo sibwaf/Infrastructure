@@ -1,0 +1,100 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: navidrome
+spec:
+  rules:
+    - host: "navidrome.{{ selfhosted_hostname }}"
+      http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: navidrome
+                port:
+                  number: 80
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: navidrome
+spec:
+  storageClassName: app-data
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: navidrome
+spec:
+  selector:
+    matchLabels:
+      app: navidrome
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: navidrome
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: navidrome
+        - name: library
+          hostPath:
+            path: "{{ selfhosted_storage_path }}/Media/Music"
+            type: DirectoryOrCreate
+      containers:
+        - name: navidrome
+          image: deluan/navidrome:0.49.3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 4533
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: library
+              mountPath: /music
+              readOnly: true
+          resources:
+            limits:
+              memory: 512Mi
+          startupProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 30
+            periodSeconds: 10
+            timeoutSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            failureThreshold: 5
+            periodSeconds: 10
+            timeoutSeconds: 10
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: navidrome
+spec:
+  selector:
+    app: navidrome
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 4533

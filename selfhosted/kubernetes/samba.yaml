@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: samba
+spec:
+  selector:
+    matchLabels:
+      app: samba
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: samba
+    spec:
+      volumes:
+        - name: storage
+          hostPath:
+            path: "{{ selfhosted_storage_path }}"
+            type: Directory
+      containers:
+        - name: samba
+          image: ghcr.io/servercontainers/samba:smbd-only-a3.17.2-s4.16.8-r1
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: samba-credentials
+          env:
+            - name: SAMBA_VOLUME_CONFIG_storage
+              value: "[storage]; path = /shares/storage; browsable = yes; read only = no; guest ok = no"
+          ports:
+            - containerPort: 445
+              hostPort: 445
+          volumeMounts:
+            - name: storage
+              mountPath: /shares/storage
+          resources:
+            limits:
+              memory: 128Mi

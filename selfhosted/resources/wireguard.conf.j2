@@ -1,0 +1,10 @@
+[Interface]
+PrivateKey = {{ client_key }}
+Address = {{ ip4 }}/32, {{ ip6 }}/128
+DNS = {{ dns | join(", ") }}
+
+[Peer]
+PublicKey = {{ server_key }}
+AllowedIPs = {{ ip4_subnet }}, {{ ip6_subnet }}
+Endpoint = {{ endpoint }}
+PersistentKeepalive = 25

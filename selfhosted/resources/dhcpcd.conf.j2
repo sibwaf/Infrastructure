@@ -1,0 +1,4 @@
+interface eth0
+static ip_address={{ selfhosted_network_ip }}
+static routers={{ selfhosted_network_gateway }}
+static domain_name_servers={{ selfhosted_network_dns | join(" ") }}

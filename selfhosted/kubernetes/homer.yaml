@@ -109,10 +109,10 @@ data:
 
       - name: "Media"
         items:
-          - name: "Navidrome"
+          - name: "Gonic"
             subtitle: "Music streaming"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/navidrome.png"
-            url: "http://navidrome.{{ selfhosted_hostname }}/"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/gonic.png"
+            url: "http://gonic.{{ selfhosted_hostname }}/"
           - name: "Lidarr"
             subtitle: "Music library management"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/lidarr.png"

@@ -117,7 +117,7 @@ stringData:
   password: xxxxxx
 ```
 
-## Navidrome
+## Gonic
 
 Requires opening UI to create an account and configure scrobbling.
 

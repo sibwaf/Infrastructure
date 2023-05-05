@@ -103,6 +103,10 @@ data:
     xxxxxx
 ```
 
+## Homebox
+
+Requires opening UI to create an account.
+
 ## Gotify
 
 `selfhosted/kubernetes/secrets/gotify.yaml`

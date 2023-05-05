@@ -90,6 +90,10 @@ data:
         items:
           - name: "Inuyama"
             url: "http://inuyama.{{ selfhosted_hostname }}/"
+          - name: "Homebox"
+            subtitle: "Inventory management"
+            url: "http://homebox.{{ selfhosted_hostname }}/"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/homebox.png"
 
       - name: "Monitoring"
         items:

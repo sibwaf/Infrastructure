@@ -23,7 +23,7 @@
       ansible.builtin.file:
         path: "{{ selfhosted_backup_path }}"
         state: directory
-    - name: "Configure storage drive mounting"
+    - name: "Configure backup drive mounting"
       when: selfhosted_backup_partition_uuid is defined
       ansible.posix.mount:
         path: "{{ selfhosted_backup_path }}"

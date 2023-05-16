@@ -227,6 +227,10 @@ stringData:
   RADARR_TOKEN: xxxxxx
 ```
 
+## Syncthing
+
+Requires opening UI to configure.
+
 ## Prometheus
 
 `selfhosted/kubernetes/secrets/prometheus.yaml`

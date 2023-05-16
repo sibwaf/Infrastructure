@@ -51,9 +51,9 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: syncthing
-        - name: storage
+        - name: backup
           hostPath:
-            path: "{{ selfhosted_storage_path }}"
+            path: "{{ selfhosted_backup_path }}"
             type: Directory
       initContainers:
         - name: chown
@@ -65,11 +65,13 @@ spec:
               mountPath: /var/syncthing
       containers:
         - name: syncthing
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
           image: syncthing/syncthing:1.23.4
           imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
           ports:
             - containerPort: 8384
             - containerPort: 21027
@@ -84,8 +86,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/syncthing
-            - name: storage
-              mountPath: /storage
+            - name: backup
+              mountPath: /backup
 
 ---
 

@@ -27,12 +27,14 @@ read_property() {
 
 hostname=$(read_property selfhosted_hostname)
 storage_path=$(read_property selfhosted_storage_path)
+backup_path=$(read_property selfhosted_backup_path)
 
 merged_manifest=""
 for f in $(find selfhosted/kubernetes -name "*.yaml"); do
     manifest=$(cat "$f")
     manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_hostname\s*}}#$hostname#g")
     manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_storage_path\s*}}#$storage_path#g")
+    manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_backup_path\s*}}#$backup_path#g")
 
 merged_manifest="$merged_manifest
 ---

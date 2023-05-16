@@ -40,13 +40,13 @@
         - name: "Check backup repository"
           environment:
             RESTIC_PASSWORD: "{{ selfhosted_backup_password }}"
-          ansible.builtin.command: "/usr/bin/restic -r '{{ selfhosted_backup_path }}' check"
+          ansible.builtin.command: "/usr/bin/restic -r '{{ selfhosted_backup_path }}/Kubernetes' check"
           changed_when: false
       rescue:
         - name: "Initialize backup repository"
           environment:
             RESTIC_PASSWORD: "{{ selfhosted_backup_password }}"
-          ansible.builtin.command: "/usr/bin/restic -r '{{ selfhosted_backup_path }}' init"
+          ansible.builtin.command: "/usr/bin/restic -r '{{ selfhosted_backup_path }}/Kubernetes' init"
     - name: "Ensure backup config directory exists"
       ansible.builtin.file:
         path: /etc/restic

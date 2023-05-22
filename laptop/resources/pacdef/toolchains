@@ -1,0 +1,23 @@
+[arch]
+ansible
+ansible-lint
+
+docker
+docker-buildx
+docker-compose
+qemu-user-static # cross-compilation
+
+go
+go-tools
+gopls
+delve
+staticcheck
+
+jdk11-openjdk
+jdk17-openjdk
+
+nodejs-lts-gallium
+npm
+
+python
+python-pip

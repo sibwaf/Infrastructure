@@ -1,0 +1,14 @@
+[arch]
+amd-ucode
+zenpower3-dkms
+
+btrfs-progs
+exfatprogs
+ntfs-3g
+sshfs
+
+mesa
+libva-mesa-driver
+vulkan-radeon
+
+iio-sensor-proxy

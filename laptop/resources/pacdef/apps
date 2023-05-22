@@ -1,0 +1,47 @@
+[arch]
+discord
+duperemove
+firefox
+iperf3
+keepassxc
+libreoffice-fresh
+nmap
+obsidian
+pinta
+reaper
+syncthing
+telegram-desktop
+thunderbird
+transmission-gtk
+ungoogled-chromium-bin
+
+# monitoring
+htop
+powertop
+radeontop
+
+# dev
+bfg
+bombardier
+cloc
+git
+git-lfs
+insomnia-bin
+intellij-idea-community-edition
+k9s
+kubectl
+visual-studio-code-bin
+
+# media
+flacon
+jellyfin-media-player
+jellyfin-server-bin
+mpv
+picard
+sonixd-bin
+yt-dlp
+
+# games
+cartridges
+minecraft-launcher
+steam

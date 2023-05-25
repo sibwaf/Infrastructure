@@ -35,7 +35,7 @@ visual-studio-code-bin
 # media
 flacon
 jellyfin-media-player
-jellyfin-server-bin
+jellyfin-bin
 mpv
 picard
 sonixd-bin

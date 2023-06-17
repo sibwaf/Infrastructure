@@ -26,7 +26,6 @@ bombardier
 cloc
 git
 git-lfs
-insomnia-bin
 intellij-idea-community-edition
 k9s
 kubectl
@@ -34,7 +33,6 @@ visual-studio-code-bin
 
 # media
 flacon
-jellyfin-media-player
 jellyfin-bin
 mpv
 picard
@@ -42,6 +40,4 @@ sonixd-bin
 yt-dlp
 
 # games
-cartridges
-minecraft-launcher
 steam

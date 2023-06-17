@@ -1,0 +1,12 @@
+[flatpak]
+com.github.tchx84.Flatseal
+
+# games
+hu.kramo.Cartridges
+com.mojang.Minecraft
+
+# media
+com.github.iwalton3.jellyfin-media-player
+
+# dev
+com.getpostman.Postman

@@ -59,9 +59,6 @@ gst-plugin-pipewire
 wireplumber
 realtime-privileges
 
-shared-mime-info
-shared-mime-info-gnome
-
 power-profiles-daemon
 
 capitaine-cursors

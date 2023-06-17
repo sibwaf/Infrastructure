@@ -13,7 +13,6 @@ syncthing
 telegram-desktop
 thunderbird
 transmission-gtk
-ungoogled-chromium-bin
 
 # monitoring
 htop
@@ -32,7 +31,6 @@ kubectl
 visual-studio-code-bin
 
 # media
-flacon
 jellyfin-bin
 mpv
 picard

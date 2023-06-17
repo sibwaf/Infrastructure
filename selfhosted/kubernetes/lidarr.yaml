@@ -54,7 +54,7 @@ spec:
             type: DirectoryOrCreate
       containers:
         - name: lidarr
-          image: ghcr.io/linuxserver/lidarr:1.2.3-develop
+          image: ghcr.io/linuxserver/lidarr:1.2.4-develop
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8686

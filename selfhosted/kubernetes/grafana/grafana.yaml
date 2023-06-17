@@ -40,7 +40,7 @@ spec:
             name: grafana-dashboard-wireguard
       containers:
         - name: grafana
-          image: grafana/grafana-oss:9.4.7
+          image: grafana/grafana-oss:10.0.0
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:

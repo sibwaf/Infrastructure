@@ -36,36 +36,6 @@
     - name: "Install microk8s extensions"
       ansible.builtin.command: "/snap/bin/microk8s enable {{ required_addons | join(' ') }} "
 
-    - name: "Prepare backup repository"
-      block:
-        - name: "Check backup repository"
-          environment:
-            RESTIC_PASSWORD: "{{ selfhosted_backup_password }}"
-          ansible.builtin.command: "/usr/bin/restic -r '{{ selfhosted_backup_path }}/Kubernetes' check"
-          changed_when: false
-      rescue:
-        - name: "Initialize backup repository"
-          environment:
-            RESTIC_PASSWORD: "{{ selfhosted_backup_password }}"
-          ansible.builtin.command: "/usr/bin/restic -r '{{ selfhosted_backup_path }}/Kubernetes' init"
-    - name: "Ensure backup config directory exists"
-      ansible.builtin.file:
-        path: /etc/restic
-        state: directory
-    - name: "Setup backup environment"
-      ansible.builtin.template:
-        src: resources/restic_kubernetes.env.j2
-        dest: /etc/restic/kubernetes.env
-    - name: "Setup backup file list"
-      ansible.builtin.copy:
-        src: resources/restic_kubernetes.files
-        dest: /etc/restic/kubernetes.files
-    - name: "Enable backup timer"
-      ansible.builtin.systemd:
-        name: restic@kubernetes.timer
-        state: started
-        enabled: true
-
     - name: "Download crictl"
       ansible.builtin.get_url:
         url: "https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{ selfhosted_cri_tools_version }}/{{ cri_tools_filename }}"

@@ -51,6 +51,7 @@ ansible-playbook -i inventory.yaml \
                  selfhosted/11_system-wireguard-client.yaml \
                  selfhosted/20_cluster-init.yaml \
                  selfhosted/21_cluster-auto-prune.yaml \
+                 selfhosted/22_cluster-auto-backup.yaml \
                  selfhosted/29_cluster-pull-kubeconfig.yaml
 ```
 

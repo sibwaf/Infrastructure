@@ -7,6 +7,7 @@
       - ingress
       - host-access
       - hostpath-storage
+    cri_tools_filename: "crictl-v{{ selfhosted_cri_tools_version }}-linux-{{ os_arch_mapping[ansible_architecture] or ansible_architecture }}.tar.gz"
 
   vars_files:
     - "../defaults.yaml"
@@ -64,3 +65,18 @@
         name: restic@kubernetes.timer
         state: started
         enabled: true
+
+    - name: "Download crictl"
+      ansible.builtin.get_url:
+        url: "https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{ selfhosted_cri_tools_version }}/{{ cri_tools_filename }}"
+        dest: "/tmp"
+        checksum: "{{ selfhosted_cri_tools_checksum }}"
+    - name: "Install crictl"
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: "/tmp/{{ cri_tools_filename }}"
+        dest: /usr/local/bin
+        include: ["crictl"]
+        mode: "755"
+        owner: root
+        group: root

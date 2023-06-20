@@ -1,0 +1,8 @@
+[Unit]
+Description=Daily unused image prune for microk8s
+
+[Timer]
+OnCalendar=*-*-* 00:00:00
+
+[Install]
+WantedBy=timers.target

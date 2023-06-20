@@ -1,0 +1,9 @@
+[Unit]
+Description=Prune unused images from microk8s
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/crictl -r unix:///var/snap/microk8s/common/run/containerd.sock rmi --prune
+
+[Install]
+WantedBy=multi-user.target

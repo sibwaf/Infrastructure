@@ -1,0 +1,21 @@
+- name: "Configure automatic image pruning for the Kubernetes cluster"
+  hosts: selfhosted
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Setup service for microk8s image pruning"
+      ansible.builtin.copy:
+        src: resources/critools-prune.service
+        dest: /etc/systemd/system/critools-prune.service
+    - name: "Setup timer for microk8s image pruning"
+      ansible.builtin.copy:
+        src: resources/critools-prune.timer
+        dest: /etc/systemd/system/critools-prune.timer
+    - name: "Enable microk8s prune timer"
+      ansible.builtin.systemd:
+        name: critools-prune.timer
+        state: started
+        enabled: true

@@ -51,7 +51,7 @@ spec:
             claimName: gotify
       containers:
         - name: gotify
-          image: gotify/server-arm7:2.2.4
+          image: gotify/server-arm64:2.2.5
           imagePullPolicy: IfNotPresent
           env:
             - name: GOTIFY_DEFAULTUSER_NAME

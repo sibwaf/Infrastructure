@@ -65,7 +65,7 @@ spec:
               mountPath: /config
       containers:
         - name: transmission
-          image: linuxserver/transmission:4.0.2
+          image: linuxserver/transmission:4.0.3
           imagePullPolicy: IfNotPresent
           env:
             - name: USER

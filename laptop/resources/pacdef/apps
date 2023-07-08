@@ -33,6 +33,7 @@ visual-studio-code-bin
 # media
 jellyfin-bin
 mpv
+mpv-mpris
 picard
 sonixd-bin
 yt-dlp

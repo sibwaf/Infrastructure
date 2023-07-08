@@ -37,6 +37,7 @@ vim
 
 cryptsetup
 efibootmgr
+kernel-modules-hook
 lm_sensors
 multipath-tools
 nvme-cli

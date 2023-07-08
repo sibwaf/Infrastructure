@@ -4,6 +4,7 @@ com.github.tchx84.Flatseal
 # games
 hu.kramo.Cartridges
 com.mojang.Minecraft
+org.yuzu_emu.yuzu
 
 # media
 com.github.iwalton3.jellyfin-media-player

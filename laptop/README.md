@@ -18,6 +18,9 @@ ln -si "$(pwd)/laptop/resources/dotfiles/pacdef/pacdef.yaml" ~/.config/pacdef/pa
 mkdir -p ~/.config/gtk-3.0
 ln -si "$(pwd)/laptop/resources/dotfiles/gtk-3.0/gtk.css" ~/.config/gtk-3.0/gtk.css
 
+mkdir -p ~/.config/wireplumber/policy.lua.d
+ln -si "$(pwd)/laptop/resources/dotfiles/wireplumber/policy.lua.d/11-bluetooth-policy.lua" ~/.config/wireplumber/policy.lua.d/11-bluetooth-policy.lua
+
 ln -si "$(pwd)/laptop/resources/dotfiles/electron-flags.conf" ~/.config/code-flags.conf
 ln -si "$(pwd)/laptop/resources/dotfiles/electron-flags.conf" ~/.config/electron-flags.conf
 ```

@@ -97,11 +97,10 @@ data:
 
       - name: "Monitoring"
         items:
-          - name: "Prometheus"
+          - name: "VictoriaMetrics"
             subtitle: "Metrics collection and storage"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/prometheus.png"
-            url: "http://prometheus.{{ selfhosted_hostname }}/"
-            type: "Prometheus"
+            logo: "https://docs.victoriametrics.com/assets/images/favicon.svg"
+            url: "http://metrics.{{ selfhosted_hostname }}/"
           - name: "Grafana"
             subtitle: "Dashboards"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"

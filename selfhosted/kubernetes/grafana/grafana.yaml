@@ -45,6 +45,17 @@ spec:
           envFrom:
             - secretRef:
                 name: grafana
+          env:
+            - name: VM_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: victoria-metrics
+                  key: username
+            - name: VM_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: victoria-metrics
+                  key: password
           ports:
             - containerPort: 3000
           volumeMounts:
@@ -67,13 +78,17 @@ data:
   datasources.yaml: |
     apiVersion: 1
     datasources:
-      - name: Prometheus
+      - name: VictoriaMetrics
         type: prometheus
         access: proxy
-        uid: prometheus
-        url: http://prometheus
+        uid: victoria-metrics
+        url: http://victoria-metrics
         editable: false
         isDefault: true
+        basicAuth: true
+        basicAuthUser: $VM_USERNAME
+        secureJsonData:
+          basicAuthPassword: $VM_PASSWORD
   dashboards.yaml: |
     apiVersion: 1
     providers:
@@ -84,7 +99,6 @@ data:
         options:
           path: /dashboards
           foldersFromFilesStructure: false
-
 
 ---
 

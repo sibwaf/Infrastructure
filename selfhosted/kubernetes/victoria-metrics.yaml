@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: prometheus
+  name: victoria-metrics
 spec:
   rules:
-    - host: "prometheus.{{ selfhosted_hostname }}"
+    - host: "metrics.{{ selfhosted_hostname }}"
       http:
         paths:
           - pathType: Prefix
             path: /
             backend:
               service:
-                name: prometheus
+                name: victoria-metrics
                 port:
                   number: 80
 
@@ -20,7 +20,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: prometheus
+  name: victoria-metrics
 spec:
   storageClassName: app-data
   accessModes:
@@ -34,21 +34,21 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prometheus
+  name: victoria-metrics
 spec:
   selector:
     matchLabels:
-      app: prometheus
+      app: victoria-metrics
   replicas: 1
   template:
     metadata:
       labels:
-        app: prometheus
+        app: victoria-metrics
     spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: prometheus
+            claimName: victoria-metrics
         - name: config
           emptyDir: {}
       initContainers:
@@ -57,7 +57,7 @@ spec:
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
-                name: prometheus
+                name: victoria-metrics
                 optional: true
           env:
             - name: PROMETHEUS_SCRAPE_0
@@ -89,43 +89,49 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-        - name: chown
-          image: busybox
-          imagePullPolicy: IfNotPresent
-          command: ["sh", "-c", "chown -R nobody:nobody /prometheus"]
-          volumeMounts:
-            - name: data
-              mountPath: /prometheus
       containers:
-        - name: prometheus
-          image: prom/prometheus:v2.45.0
+        - name: victoria-metrics
+          image: victoriametrics/victoria-metrics:v1.92.1
           imagePullPolicy: IfNotPresent
           args:
-            - "--config.file=/etc/prometheus/prometheus.yml"
-            - "--storage.tsdb.path=/prometheus"
-            - "--storage.tsdb.retention.time=31d"
-            - "--web.console.libraries=/usr/share/prometheus/console_libraries"
-            - "--web.console.templates=/usr/share/prometheus/consoles"
+            - "-promscrape.config"
+            - "/config/prometheus.yml"
+            - "-retentionPeriod"
+            - "31d"
+            - "-httpAuth.username"
+            - "%{USERNAME}"
+            - "-httpAuth.password"
+            - "%{PASSWORD}"
+          env:
+            - name: "USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: victoria-metrics
+                  key: username
+            - name: "PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: victoria-metrics
+                  key: password
           ports:
-            - containerPort: 9090
+            - containerPort: 8428
           volumeMounts:
             - name: data
-              mountPath: /prometheus
+              mountPath: /victoria-metrics-data
             - name: config
-              subPath: prometheus.yml
-              mountPath: /etc/prometheus/prometheus.yml
+              mountPath: /config
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: prometheus
+  name: victoria-metrics
 spec:
   selector:
-    app: prometheus
+    app: victoria-metrics
   type: ClusterIP
   ports:
     - name: http
       port: 80
-      targetPort: 9090
+      targetPort: 8428

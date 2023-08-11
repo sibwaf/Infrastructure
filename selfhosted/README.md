@@ -236,17 +236,21 @@ stringData:
 
 Requires opening UI to configure.
 
-## Prometheus
+## VictoriaMetrics
 
-`selfhosted/kubernetes/secrets/prometheus.yaml`
+`selfhosted/kubernetes/secrets/victoria-metrics.yaml`
 ```yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: prometheus
+  name: victoria-metrics
 type: Opaque
 stringData:
+  username: xxxxxx
+  password: xxxxxx
+
   PROMETHEUS_SCRAPE_1: name=address
+  PROMETHEUS_SCRAPE_2: name=address
 ```
 
 ## Grafana

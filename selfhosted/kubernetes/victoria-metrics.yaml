@@ -85,6 +85,16 @@ spec:
                 echo "  - job_name: \"$name\"" >> /config/prometheus.yml
                 echo "    static_configs:" >> /config/prometheus.yml
                 echo "      - targets: [\"$address\"]" >> /config/prometheus.yml
+
+                labels=$(eval echo "\$PROMETHEUS_LABELS_$i")
+                if [ -n "$labels" ]; then
+                  echo "        labels:" >> /config/prometheus.yml
+                  for label in $(echo "$labels" | tr ";" "\n"); do
+                    label_name=$(echo "$label" | cut -d "=" -f 1)
+                    label_value=$(echo "$label" | cut -d "=" -f 2)
+                    echo "          \"$label_name\": \"$label_value\"" >> /config/prometheus.yml
+                  done
+                fi
               done
           volumeMounts:
             - name: config

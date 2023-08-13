@@ -251,6 +251,7 @@ stringData:
 
   PROMETHEUS_SCRAPE_1: name=address
   PROMETHEUS_SCRAPE_2: name=address
+  PROMETHEUS_LABELS_2: a=b;c=d
 ```
 
 ## Grafana

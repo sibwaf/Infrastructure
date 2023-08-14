@@ -40,6 +40,8 @@ spec:
     matchLabels:
       app: victoria-metrics
   replicas: 1
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:

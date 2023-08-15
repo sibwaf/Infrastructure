@@ -1,0 +1,94 @@
+{
+    "log": {
+        "access": "/dev/null",
+        "loglevel": "warning"
+    },
+    "stats": {},
+    "policy": {
+        "levels": {
+            "0": {
+                "statsUserUplink": true,
+                "statsUserDownlink": true
+            }
+        }
+    },
+    "api": {
+        "tag": "api",
+        "services": ["StatsService"]
+    },
+    "routing": {
+        "rules": [
+            {
+                "inboundTag": ["api"],
+                "outboundTag": "api",
+                "type": "field"
+            }
+        ],
+        "domainStrategy": "AsIs"
+    },
+    "inbounds": [
+        {
+            "port": 443,
+            "protocol": "vless",
+            "settings": {
+                "clients": [
+                    {% for peer in vpn_xray_peers %}
+                    {
+                        "id": "{{ peer.id }}",
+                        {% if peer.email is defined %}"email": "{{ peer.email }}",{% endif %}
+                        "flow": "xtls-rprx-vision"
+                    }{{ ", " if not loop.last else "" }}
+                    {% endfor %}
+                ],
+                "decryption": "none"
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "security": "reality",
+                "realitySettings": {
+                    "show": false,
+                    "dest": "{{ vpn_xray_fake_url }}:443",
+                    "xver": 0,
+                    "serverNames": [
+                        "{{ vpn_xray_fake_url }}"
+                    ],
+                    "privateKey": "{{ vpn_xray_server_key }}",
+                    "minClientVer": "",
+                    "maxClientVer": "",
+                    "maxTimeDiff": 0,
+                    "shortIds": [
+                        {% for id in vpn_xray_short_ids %}
+                        "{{ id }}"{{ ", " if not loop.last else "" }}
+                        {% endfor %}
+                    ]
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            }
+        },
+        {
+            "listen": "127.0.0.1",
+            "port": 8080,
+            "protocol": "dokodemo-door",
+            "settings": {
+                "address": "127.0.0.1"
+            },
+            "tag": "api"
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "block"
+        }
+    ]
+}

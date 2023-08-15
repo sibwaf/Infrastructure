@@ -105,10 +105,10 @@ data:
             subtitle: "Dashboards"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"
             url: "http://grafana.{{ selfhosted_hostname }}/"
-          - name: "Grafana / Wireguard"
-            subtitle: "Wireguard usage dashboard"
+          - name: "Grafana / VPN"
+            subtitle: "VPN usage dashboard"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"
-            url: "http://grafana.{{ selfhosted_hostname }}/d/wireguard/"
+            url: "http://grafana.{{ selfhosted_hostname }}/d/vpn/"
 
       - name: "Media"
         items:

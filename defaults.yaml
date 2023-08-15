@@ -5,9 +5,14 @@ os_arch_mapping:
   "x86_64": "amd64"
   "i386": "i386"
 
-vpn_server_ip_suffix: 1
+vpn_wireguard_server_ip_suffix: 1
 vpn_wireguard_exporter_version: "3.6.6"
-vpn_peers: []
+vpn_wireguard_peers: []
+vpn_xray_version: "1.8.3"
+vpn_xray_checksum: "sha256:858a2f819acd29d21109f83b06ace5188d88c6487af8475a898bdb6b5f618421"
+vpn_xray_fake_url: "example.com"
+vpn_xray_short_ids: []
+vpn_xray_peers: []
 
 selfhosted_swap_size: 1024
 selfhosted_storage_path: /mnt/storage

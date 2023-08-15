@@ -1,0 +1,11 @@
+[Unit]
+Description=Xray Prometheus Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/xray-prometheus-exporter
+
+[Install]
+WantedBy=multi-user.target

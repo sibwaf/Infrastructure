@@ -35,9 +35,9 @@ spec:
         - name: config
           configMap:
             name: grafana
-        - name: dashboard-wireguard
+        - name: dashboard-vpn
           configMap:
-            name: grafana-dashboard-wireguard
+            name: grafana-dashboard-vpn
       containers:
         - name: grafana
           image: grafana/grafana-oss:10.0.1
@@ -65,8 +65,8 @@ spec:
             - name: config
               subPath: dashboards.yaml
               mountPath: /etc/grafana/provisioning/dashboards/dashboards.yaml
-            - name: dashboard-wireguard
-              mountPath: /dashboards/wireguard
+            - name: dashboard-vpn
+              mountPath: /dashboards/vpn
 
 ---
 

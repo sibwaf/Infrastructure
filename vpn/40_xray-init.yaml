@@ -1,0 +1,75 @@
+- name: "Setup Xray server"
+  hosts: vpn
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Ensure unzip is installed"
+      ansible.builtin.package:
+        name: "unzip"
+        state: "present"
+
+    - name: "Download Xray"
+      ansible.builtin.get_url:
+        url: "https://github.com/XTLS/Xray-core/releases/download/v{{ vpn_xray_version }}/Xray-linux-64.zip"
+        checksum: "{{ vpn_xray_checksum }}"
+        dest: "/tmp/xray-{{ vpn_xray_version }}.zip"
+
+    - name: "Unpack Xray binary"
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: "/tmp/xray-{{ vpn_xray_version }}.zip"
+        dest: "/usr/local/bin"
+        include: "xray"
+        mode: "755"
+
+    - name: "Create Xray data directory"
+      ansible.builtin.file:
+        path: "/usr/local/share/xray"
+        state: "directory"
+    - name: "Unpack Xray data"
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: "/tmp/xray-{{ vpn_xray_version }}.zip"
+        dest: "/usr/local/share/xray"
+        exclude: "xray"
+
+    - name: "Generate Xray config"
+      ansible.builtin.template:
+        src: resources/xray.json.j2
+        dest: /etc/xray.json
+
+    - name: "Copy service for xray"
+      ansible.builtin.copy:
+        src: resources/xray.service
+        dest: /usr/lib/systemd/system/xray.service
+
+    - name: "Enable xray service"
+      ansible.builtin.systemd:
+        name: xray
+        state: restarted
+        enabled: true
+
+    - name: "Ensure python3 is installed"
+      ansible.builtin.package:
+        name: "python3"
+        state: "present"
+
+    - name: "Install xray-prometheus-exporter"
+      ansible.builtin.copy:
+        src: resources/xray-prometheus-exporter.py
+        dest: /usr/local/bin/xray-prometheus-exporter
+        mode: "755"
+
+    - name: "Copy service for xray-prometheus-exporter"
+      ansible.builtin.copy:
+        src: resources/xray-prometheus-exporter.service
+        dest: /usr/lib/systemd/system/xray-prometheus-exporter.service
+
+    - name: "Enable xray-prometheus-exporter service"
+      ansible.builtin.systemd:
+        name: xray-prometheus-exporter
+        state: restarted
+        enabled: true

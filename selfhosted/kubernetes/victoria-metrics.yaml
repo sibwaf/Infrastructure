@@ -98,6 +98,17 @@ spec:
                   done
                 fi
               done
+
+              cat <<EOF > /config/relabel.yml
+                - action: labelmap
+                  if: "xray_sent_bytes_total"
+                  regex: "email"
+                  replacement: "user_name"
+                - action: labelmap
+                  if: "xray_received_bytes_total"
+                  regex: "email"
+                  replacement: "user_name"
+              EOF
           volumeMounts:
             - name: config
               mountPath: /config
@@ -108,6 +119,8 @@ spec:
           args:
             - "-promscrape.config"
             - "/config/prometheus.yml"
+            - "-relabelConfig"
+            - "/config/relabel.yml"
             - "-retentionPeriod"
             - "31d"
             - "-httpAuth.username"

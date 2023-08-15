@@ -40,7 +40,7 @@ spec:
             name: grafana-dashboard-vpn
       containers:
         - name: grafana
-          image: grafana/grafana-oss:10.0.1
+          image: grafana/grafana-oss:10.0.3
           imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:

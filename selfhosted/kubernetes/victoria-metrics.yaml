@@ -114,7 +114,7 @@ spec:
               mountPath: /config
       containers:
         - name: victoria-metrics
-          image: victoriametrics/victoria-metrics:v1.92.1
+          image: victoriametrics/victoria-metrics:v1.93.0
           imagePullPolicy: IfNotPresent
           args:
             - "-promscrape.config"

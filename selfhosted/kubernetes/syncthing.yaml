@@ -65,7 +65,7 @@ spec:
               mountPath: /var/syncthing
       containers:
         - name: syncthing
-          image: syncthing/syncthing:1.23.6
+          image: syncthing/syncthing:1.23.7
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID

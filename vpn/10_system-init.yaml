@@ -5,6 +5,9 @@
     - "../defaults.yaml"
     - "../vars.yaml"
 
+  roles:
+    - "node-exporter"
+
   tasks:
     - name: "Enable IP v4 forwarding in /etc/sysctl.d/50-ip-forwarding.conf"
       ansible.posix.sysctl:
@@ -56,14 +59,4 @@
     - name: "Enable ip6tables.service"
       ansible.builtin.systemd:
         name: ip6tables
-        enabled: true
-
-    - name: "Install prometheus-node-exporter"
-      ansible.builtin.package:
-        name: golang-github-prometheus-node-exporter
-        state: present
-    - name: "Enable prometheus-node-exporter"
-      ansible.builtin.systemd:
-        name: node_exporter
-        state: started
         enabled: true

@@ -1,0 +1,24 @@
+- name: "Collect systemd services"
+  ansible.builtin.service_facts: {}
+
+- name: "Stop and disable foreign node-exporter services"
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: "stopped"
+    enabled: false
+  with_items:
+    - "node_exporter"
+    - "prometheus-node-exporter"
+  when: "(item + '.service') in services"
+
+- name: "Reload systemd services"
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: "Delete existing foreign node-exporter packages"
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: "absent"
+  with_items:
+    - "golang-github-prometheus-node-exporter"
+    - "prometheus-node-exporter"

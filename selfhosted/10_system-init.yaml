@@ -5,6 +5,9 @@
     - "../defaults.yaml"
     - "../vars.yaml"
 
+  roles:
+    - "node-exporter"
+
   tasks:
     - name: "Create storage mount directory"
       ansible.builtin.file:
@@ -44,16 +47,6 @@
       ansible.builtin.copy:
         src: resources/restic.timer
         dest: /etc/systemd/system/restic@.timer
-
-    - name: "Install prometheus-node-exporter"
-      ansible.builtin.package:
-        name: prometheus-node-exporter
-        state: present
-    - name: "Enable and start prometheus-node-exporter"
-      ansible.builtin.systemd:
-        name: prometheus-node-exporter
-        state: started
-        enabled: true
 
     - name: "Configure dhcpcd"
       ansible.builtin.template:

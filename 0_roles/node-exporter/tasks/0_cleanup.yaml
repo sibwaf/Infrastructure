@@ -11,10 +11,6 @@
     - "prometheus-node-exporter"
   when: "(item + '.service') in services"
 
-- name: "Reload systemd services"
-  ansible.builtin.systemd:
-    daemon_reload: true
-
 - name: "Delete existing foreign node-exporter packages"
   ansible.builtin.package:
     name: "{{ item }}"
@@ -22,3 +18,7 @@
   with_items:
     - "golang-github-prometheus-node-exporter"
     - "prometheus-node-exporter"
+
+- name: "Reload systemd services"
+  ansible.builtin.systemd:
+    daemon_reload: true

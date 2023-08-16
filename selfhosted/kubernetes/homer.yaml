@@ -109,6 +109,10 @@ data:
             subtitle: "VPN usage dashboard"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"
             url: "http://grafana.{{ selfhosted_hostname }}/d/vpn/"
+          - name: "Grafana / Nodes"
+            subtitle: "Node statistics"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"
+            url: "http://grafana.{{ selfhosted_hostname }}/d/node-exporter/"
 
       - name: "Media"
         items:

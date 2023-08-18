@@ -38,9 +38,6 @@ selfhosted_vpn_servers: # has default
     ip6: "fd00::2"
     ip6_subnet: "fd00::0/112"
     dns: ["1.1.1.1", "1.0.0.1"]
-
-selfhosted_cri_tools_version: "1.2.3"
-selfhosted_cri_tools_checksum: "sha256:0000000000000000000000000000000000000000000000000000000000000000"
 ```
 
 If you're using a Raspberry Pi as the server, run `ansible-playbook -i inventory.yaml selfhosted/00_hw-rpi.yaml` and reboot before proceeding.

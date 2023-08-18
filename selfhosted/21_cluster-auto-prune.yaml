@@ -5,6 +5,9 @@
     - "../defaults.yaml"
     - "../vars.yaml"
 
+  roles:
+    - "cri-tools"
+
   tasks:
     - name: "Setup service for microk8s image pruning"
       ansible.builtin.copy:

@@ -1,0 +1,8 @@
+cri_tools_arch_mapping:
+  "aarch64": "arm64"
+  "x86_64": "amd64"
+
+cri_tools_version: "1.27.0"
+cri_tools_checksum:
+  "amd64": "sha256:d335d6e16c309fbc3ff1a29a7e49bb253b5c9b4b030990bf7c6b48687f985cee"
+  "arm64": "sha256:9317560069ded8e7bf8b9488fdb110d9e62f0fbc0e33ed09fe972768b47752bd"

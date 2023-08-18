@@ -1,0 +1,22 @@
+- name: "Map architecture name"
+  ansible.builtin.set_fact:
+    cri_tools_arch: "{{ cri_tools_arch_mapping[ansible_architecture] }}"
+- name: "Calculate artifact name"
+  ansible.builtin.set_fact:
+    cri_tools_artifact_name: "crictl-v{{ cri_tools_version }}-linux-{{ cri_tools_arch }}"
+
+- name: "Download cri-tools"
+  ansible.builtin.get_url:
+    url: "https://github.com/kubernetes-sigs/cri-tools/releases/download/v{{ cri_tools_version }}/{{ cri_tools_artifact_name }}.tar.gz"
+    checksum: "{{ cri_tools_checksum[cri_tools_arch] }}"
+    dest: "/tmp/cri-tools-{{ cri_tools_version }}.tar.gz"
+
+- name: "Unpack cri-tools binary"
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "/tmp/cri-tools-{{ cri_tools_version }}.tar.gz"
+    dest: "/usr/local/bin"
+    include: ["crictl"]
+    mode: "755"
+    owner: "root"
+    group: "root"

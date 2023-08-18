@@ -13,12 +13,12 @@
   ansible.builtin.get_url:
     url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/{{ node_exporter_artifact_name }}.tar.gz"
     checksum: "{{ node_exporter_checksum[node_exporter_arch] }}"
-    dest: "/tmp/node-exporter-{{ node_exporter_version }}.zip"
+    dest: "/tmp/node-exporter-{{ node_exporter_version }}.tar.gz"
 
 - name: "Unpack node-exporter binary"
   ansible.builtin.unarchive:
     remote_src: true
-    src: "/tmp/node-exporter-{{ node_exporter_version }}.zip"
+    src: "/tmp/node-exporter-{{ node_exporter_version }}.tar.gz"
     dest: "/usr/local/bin"
     include: "{{ node_exporter_artifact_name }}/node_exporter"
     mode: "755"

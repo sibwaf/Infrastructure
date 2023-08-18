@@ -23,4 +23,6 @@ selfhosted_cri_tools_checksum: "sha256:9317560069ded8e7bf8b9488fdb110d9e62f0fbc0
 
 dns_records: []
 
+laptop_dns_mapping: []
+
 local_kubeconfig_path: "~/.kube/kubeconfig"

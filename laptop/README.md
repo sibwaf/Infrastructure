@@ -2,6 +2,33 @@
 
 ArchLinux with GNOME, full disk encryption and systemd-boot/UKI boot.
 
+## Playbooks
+
+`inventory.yaml`
+```yaml
+laptop:
+  hosts:
+    localhost:
+      ansible_connection: local # if SSH is disabled
+```
+
+### Networking
+
+NetworkManager + dnsmasq for DNS resolving.
+
+`vars.yaml`
+```yaml
+laptop_dns_mapping: # has default
+  - name: ".example.com" # *.example.com
+    address: "0.0.0.0"
+  - name: "example.com" # example.com
+    address: "0.0.0.0"
+```
+
+```shell
+ansible-playbook -K -i inventory.yaml laptop/networking.yaml
+```
+
 ## Dotfiles
 
 ```shell

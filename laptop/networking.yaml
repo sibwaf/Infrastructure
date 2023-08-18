@@ -1,0 +1,43 @@
+- name: "Setup networking"
+  hosts: "laptop"
+
+  become: true
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Install required packages"
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: "present"
+      loop:
+        - "networkmanager"
+        - "dnsmasq"
+
+    - name: "Configure NetworkManager to use dnsmasq for DNS"
+      ansible.builtin.copy:
+        src: "resources/etc/NetworkManager/conf.d/dns.conf"
+        dest: "/etc/NetworkManager/conf.d/dns.conf"
+
+    - name: "Configure dnsmasq"
+      ansible.builtin.template:
+        src: "resources/etc/NetworkManager/dnsmasq.d/hosts.conf.j2"
+        dest: "/etc/NetworkManager/dnsmasq.d/hosts.conf"
+
+    - name: "Reload systemd services"
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: "Disable and stop dnsmasq.service"
+      ansible.builtin.systemd:
+        name: "dnsmasq.service"
+        state: "stopped"
+        enabled: false
+
+    - name: "Enable and restart NetworkManager.service"
+      ansible.builtin.systemd:
+        name: "NetworkManager.service"
+        state: "restarted"
+        enabled: true

@@ -1,0 +1,3 @@
+{% for line in laptop_dns_mapping %}
+address=/{{ line.name }}/{{ line.address }}
+{% endfor %}

@@ -53,6 +53,7 @@ spec:
               memory: 8Mi
         - name: auth-proxy
           image: caddy:2.6.4
+          imagePullPolicy: IfNotPresent
           envFrom:
             - secretRef:
                 name: homer

@@ -79,7 +79,7 @@ spec:
               mountPath: /app/server.key
           resources:
             limits:
-              memory: 128Mi
+              memory: 256Mi
 
 ---
 

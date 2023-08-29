@@ -1,5 +1,6 @@
 [flatpak]
 com.github.tchx84.Flatseal
+us.zoom.Zoom
 
 # games
 hu.kramo.Cartridges
@@ -11,3 +12,4 @@ com.github.iwalton3.jellyfin-media-player
 
 # dev
 com.getpostman.Postman
+com.google.AndroidStudio

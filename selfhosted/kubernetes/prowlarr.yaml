@@ -51,7 +51,7 @@ spec:
             claimName: prowlarr
       containers:
         - name: prowlarr
-          image: ghcr.io/linuxserver/prowlarr:1.8.2-develop
+          image: ghcr.io/linuxserver/prowlarr:1.8.5-develop
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9696

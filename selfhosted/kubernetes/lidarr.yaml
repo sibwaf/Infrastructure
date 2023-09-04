@@ -63,7 +63,7 @@ spec:
           command: ["mkdir", "-p", "/downloads/lidarr"]
       containers:
         - name: lidarr
-          image: ghcr.io/linuxserver/lidarr:1.3.4-develop
+          image: ghcr.io/linuxserver/lidarr:1.4.0-develop
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8686

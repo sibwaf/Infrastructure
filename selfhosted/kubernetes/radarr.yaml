@@ -64,7 +64,7 @@ spec:
           command: ["mkdir", "-p", "/downloads/radarr"]
       containers:
         - name: radarr
-          image: ghcr.io/linuxserver/radarr:4.7.5-develop
+          image: ghcr.io/linuxserver/radarr:5.0.1-develop
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 7878

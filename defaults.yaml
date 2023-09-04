@@ -1,25 +1,40 @@
 vpn_wireguard_server_ip_suffix: 1
 vpn_wireguard_exporter_version: "3.6.6"
 vpn_wireguard_peers: []
+
 vpn_xray_version: "1.8.3"
 vpn_xray_checksum: "sha256:858a2f819acd29d21109f83b06ace5188d88c6487af8475a898bdb6b5f618421"
 vpn_xray_fake_url: "example.com"
 vpn_xray_short_ids: []
 vpn_xray_peers: []
 
+# ---------
+
 selfhosted_swap_size: 1024
+
 selfhosted_storage_path: /mnt/storage
+
 selfhosted_backup_path: /mnt/backup
+
 selfhosted_seedbox_path: /mnt/seedbox
 selfhosted_seedbox_ssh_port: 22
 selfhosted_seedbox_ssh_user: root
 selfhosted_seedbox_ssh_key_path: /etc/ssh-keys/seedbox
+
 selfhosted_vpn_servers: []
+
+# ---------
 
 seedbox_transmission_ui_port: 9091
 
+# ---------
+
 dns_records: []
 
+# ---------
+
 laptop_dns_mapping: []
+
+# ---------
 
 local_kubeconfig_path: "~/.kube/kubeconfig"

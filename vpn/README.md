@@ -16,6 +16,7 @@ vpn:
       vpn_wireguard_server_key: xxxxxx # required
 
       vpn_xray_server_key: xxxxxx # required
+
     hostname2:
       vpn_wireguard_subnet_prefix_ip4: "10.0.1."
       vpn_wireguard_subnet_prefix_ip6: "fd00::1:"

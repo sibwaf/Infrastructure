@@ -22,9 +22,11 @@ selfhosted_hostname: cluster.example # required
 
 selfhosted_storage_partition_uuid: xxxxxx # optional
 selfhosted_storage_path: /mnt/storage # has default
+
 selfhosted_backup_partition_uuid: xxxxxx # optional
 selfhosted_backup_path: /mnt/backup # has default
 selfhosted_backup_password: xxxxxx # required
+
 selfhosted_seedbox_path: /mnt/seedbox # has default
 selfhosted_seedbox_ssh_port: 22 # has default
 selfhosted_seedbox_ssh_user: root # has default
@@ -43,6 +45,8 @@ selfhosted_vpn_servers: # has default
     ip6: "fd00::2"
     ip6_subnet: "fd00::0/112"
     dns: ["1.1.1.1", "1.0.0.1"]
+
+# --------
 
 seedbox_hostname: seedbox.example # required
 seedbox_storage_path: /home/user1/storage # required

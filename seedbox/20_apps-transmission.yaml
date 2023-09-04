@@ -1,0 +1,18 @@
+- name: "Configure Transmission"
+  hosts: seedbox
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Create storage directory"
+      ansible.builtin.file:
+        path: "{{ seedbox_storage_path }}"
+        state: "directory"
+
+    - name: "Link Transmission download path to storage directory"
+      ansible.builtin.file:
+        src: "{{ seedbox_transmission_download_path }}"
+        dest: "{{ seedbox_storage_path }}/Transmission"
+        state: "link"

@@ -1,0 +1,5 @@
+- name: "Install sshuttle-tunnel-single"
+  ansible.builtin.include_tasks: "0_install.yaml"
+
+- name: "Create and enable tunnel"
+  ansible.builtin.include_tasks: "1_create-tunnel.yaml"

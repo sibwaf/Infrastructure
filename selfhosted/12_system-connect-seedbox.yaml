@@ -1,0 +1,26 @@
+- name: "Configure connection to seedbox"
+  hosts: selfhosted
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  vars:
+    ssh_host: "{{ seedbox_hostname }}"
+    ssh_port: "{{ selfhosted_seedbox_ssh_port }}"
+    ssh_user: "{{ selfhosted_seedbox_ssh_user }}"
+    ssh_key_path: "{{ selfhosted_seedbox_ssh_key_path }}"
+
+  tasks:
+    - name: "Create SSH tunnel"
+      ansible.builtin.include_role:
+        name: "sshuttle-tunnel-single"
+      vars:
+        name: "seedbox"
+
+    - name: "Mount seedbox"
+      ansible.builtin.include_role:
+        name: "automount-sshfs"
+      vars:
+        src: "{{ seedbox_storage_path }}"
+        dest: "{{ selfhosted_seedbox_path }}"

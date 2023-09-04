@@ -1,0 +1,12 @@
+[Unit]
+Description=SSH tunnel for %I
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/sshuttle-tunnel-single
+EnvironmentFile=/etc/sshuttle/tunnels/%I.env
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

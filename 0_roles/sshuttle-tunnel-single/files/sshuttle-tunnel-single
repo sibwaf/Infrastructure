@@ -1,0 +1,11 @@
+#!/bin/sh
+
+ssh_cmd="ssh"
+ssh_cmd="$ssh_cmd -i \"$SSHUTTLE_KEY_PATH\""
+ssh_cmd="$ssh_cmd -o ConnectTimeout=$SSHUTTLE_CONNECT_TIMEOUT"
+ssh_cmd="$ssh_cmd -o ServerAliveInterval=$SSHUTTLE_KEEPALIVE_INTERVAL"
+
+sshuttle --listen "0.0.0.0" \
+         --remote "$SSHUTTLE_USER@$SSHUTTLE_HOST:$SSHUTTLE_PORT" \
+         --ssh-cmd "$ssh_cmd" \
+         "$SSHUTTLE_HOST"

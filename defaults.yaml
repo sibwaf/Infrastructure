@@ -10,6 +10,10 @@ vpn_xray_peers: []
 selfhosted_swap_size: 1024
 selfhosted_storage_path: /mnt/storage
 selfhosted_backup_path: /mnt/backup
+selfhosted_seedbox_path: /mnt/seedbox
+selfhosted_seedbox_ssh_port: 22
+selfhosted_seedbox_ssh_user: root
+selfhosted_seedbox_ssh_key_path: /etc/ssh-keys/seedbox
 selfhosted_vpn_servers: []
 
 dns_records: []

@@ -1,0 +1,20 @@
+- name: "Ensure sshuttle is installed"
+  ansible.builtin.package:
+    name: "sshuttle"
+    state: "present"
+
+- name: "Copy sshuttle-tunnel-single"
+  ansible.builtin.copy:
+    src: "sshuttle-tunnel-single"
+    dest: "/usr/local/bin/sshuttle-tunnel-single"
+    mode: "755"
+
+- name: "Copy sshuttle-tunnel-single@.service"
+  ansible.builtin.copy:
+    src: "sshuttle-tunnel-single@.service"
+    dest: "/usr/lib/systemd/system/sshuttle-tunnel-single@.service"
+
+- name: "Create /etc/sshuttle/tunnels"
+  ansible.builtin.file:
+    path: "/etc/sshuttle/tunnels"
+    state: "directory"

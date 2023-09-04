@@ -1,0 +1,27 @@
+- name: "Ensure sshfs is installed"
+  ansible.builtin.package:
+    name: "sshfs"
+    state: "present"
+
+- name: "Create mount destination directory"
+  ansible.builtin.file:
+    path: "{{ dest }}"
+    state: "directory"
+
+- name: "Configure mounting"
+  vars:
+    systemd_opts: "noauto,nofail,x-systemd.automount,_netdev"
+    sshfs_opts: "allow_other,idmap=user,follow_symlinks"
+    ssh_opts: "Port={{ ssh_port }},IdentityFile={{ ssh_key_path }},ConnectTimeout={{ connect_timeout }},ServerAliveInterval={{ keepalive_interval }}"
+  ansible.posix.mount:
+    path: "{{ dest }}"
+    src: "{{ ssh_user }}@{{ ssh_host }}:{{ src }}"
+    fstype: "fuse.sshfs"
+    opts: "{{ systemd_opts }},{{ sshfs_opts }},{{ ssh_opts }}"
+    state: "present"
+
+- name: "Reload systemd configuration and restart remote-fs.target"
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: "remote-fs.target"
+    state: "restarted"

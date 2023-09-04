@@ -4,6 +4,7 @@ Requires:
 1. ansible
 2. kubectl
 3. yq
+4. openssh (for key generation)
 
 `inventory.yaml`
 ```yaml
@@ -24,6 +25,10 @@ selfhosted_storage_path: /mnt/storage # has default
 selfhosted_backup_partition_uuid: xxxxxx # optional
 selfhosted_backup_path: /mnt/backup # has default
 selfhosted_backup_password: xxxxxx # required
+selfhosted_seedbox_path: /mnt/seedbox # has default
+selfhosted_seedbox_ssh_port: 22 # has default
+selfhosted_seedbox_ssh_user: root # has default
+selfhosted_seedbox_ssh_key_path: /etc/ssh-keys/seedbox # has default
 
 selfhosted_network_ip: "192.168.1.2/24" # required
 selfhosted_network_gateway: "192.168.11.1" # required
@@ -38,6 +43,9 @@ selfhosted_vpn_servers: # has default
     ip6: "fd00::2"
     ip6_subnet: "fd00::0/112"
     dns: ["1.1.1.1", "1.0.0.1"]
+
+seedbox_hostname: seedbox.example # required
+seedbox_storage_path: /home/user1/storage # required
 ```
 
 If you're using a Raspberry Pi as the server, run `ansible-playbook -i inventory.yaml selfhosted/00_hw-rpi.yaml` and reboot before proceeding.
@@ -46,11 +54,24 @@ If you're using a Raspberry Pi as the server, run `ansible-playbook -i inventory
 ansible-playbook -i inventory.yaml \
                  selfhosted/10_system-init.yaml \
                  selfhosted/11_system-wireguard-client.yaml \
+                 selfhosted/12_system-connect-seedbox.yaml \
                  selfhosted/20_cluster-init.yaml \
                  selfhosted/21_cluster-auto-prune.yaml \
                  selfhosted/22_cluster-auto-backup.yaml \
                  selfhosted/29_cluster-pull-kubeconfig.yaml
 ```
+
+## Connecting to seedbox
+
+Currently there is no way to avoid configuring a valid seedbox connection. The seedbox should be already configured before deploying the cluster.
+
+```shell
+ssh-keygen -t ed25519 -f ./seedbox -P ""
+```
+
+1. Copy the private key to `/etc/ssh-keys/seedbox` (or whatever `selfhosted_seedbox_ssh_key_path` points to) on the "selfhosted" server
+2. Add the public key to `~/.ssh/authorized_keys` on the "seedbox" server
+3. SSH from the "selfhosted" server to the "seedbox" server to verify the connection and add it to selfhosted's `known_hosts`
 
 ## Gire / https://github.com/sibwaf/gire
 

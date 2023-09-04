@@ -1,0 +1,11 @@
+- name: "Create sshuttle configuration"
+  ansible.builtin.template:
+    src: "sshuttle-tunnel-single.env.j2"
+    dest: "/etc/sshuttle/tunnels/{{ name }}.env"
+
+- name: "Enable and start sshuttle-tunnel-single@{{ name }}.service"
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: "sshuttle-tunnel-single@{{ name }}.service"
+    state: "restarted"
+    enabled: true

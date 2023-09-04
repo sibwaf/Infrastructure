@@ -1,0 +1,3 @@
+ssh_port: 22
+connect_timeout: 8
+keepalive_interval: 4

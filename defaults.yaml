@@ -16,6 +16,8 @@ selfhosted_seedbox_ssh_user: root
 selfhosted_seedbox_ssh_key_path: /etc/ssh-keys/seedbox
 selfhosted_vpn_servers: []
 
+seedbox_transmission_ui_port: 9091
+
 dns_records: []
 
 laptop_dns_mapping: []

@@ -46,6 +46,7 @@ selfhosted_vpn_servers: # has default
 
 seedbox_hostname: seedbox.example # required
 seedbox_storage_path: /home/user1/storage # required
+seedbox_transmission_ui_port: 9091 # has default
 ```
 
 If you're using a Raspberry Pi as the server, run `ansible-playbook -i inventory.yaml selfhosted/00_hw-rpi.yaml` and reboot before proceeding.
@@ -185,18 +186,24 @@ Requires opening UI to configure:
 
 Requires opening UI to setup an account and configure.
 
+### Configuring download clients
+
+1. Navigate to Settings -> Download Clients.
+2. Add a new client:
+    * `host = seedbox-transmission-proxy`
+    * `port = 80`
+    * `username = ******`
+    * `password = ******`
+    * `category = ******` (set to app's name; ex: `lidarr`)
+3. Add a path mapping for `seedbox-transmission-proxy`: `/full/path/on/seedbox/to/transmission/downloads` -> `/downloads/`
+
 ### Lidarr
 
 1. Create an account
 2. Add library `/library/Music` in Settings -> Media Management
 3. Edit the default metadata profile in Settings -> Profiles to include EPs/singles/...
-4. Add Deluge in Settings -> Download Clients:
-    * `host = deluge`
-    * `port = 80`
-    * `password = ********`
-    * `category = lidarr`
-5. Add path mapping `/downloads/ -> /library/Downloads/`
-6. Grab the API key from Settings -> General
+4. Add the download client
+5. Grab the API key from Settings -> General
 
 ### Sonarr
 
@@ -204,25 +211,15 @@ Requires opening UI to setup an account and configure.
 2. Add library `/library/TV` in Settings -> Media Management
 3. Add wanted release groups in Settings -> Custom Formats
 4. Set release group priorities for quality profiles in Settings -> Profiles
-5. Add Transmission in Settings -> Download Clients:
-    * `host = deluge`
-    * `port = 80`
-    * `password = ********`
-    * `category = sonarr`
-6. Add path mapping `/downloads/ -> /library/Downloads/`
-7. Grab the API key from Settings -> General
+5. Add the download client
+6. Grab the API key from Settings -> General
 
 ### Radarr
 
 1. Create an account
 2. Add library `/library/Movies` in Settings -> Media Management
-3. Add Transmission in Settings -> Download Clients:
-    * `host = deluge`
-    * `port = 80`
-    * `password = ********`
-    * `category = radarr`
-4. Add path mapping `/downloads/ -> /library/Downloads/`
-5. Grab the API key from Settings -> General
+3. Add the download client
+4. Grab the API key from Settings -> General
 
 ### Prowlarr
 
@@ -232,7 +229,11 @@ Requires opening UI to setup an account and configure.
     * `prowlarr = http://prowlarr`
     * `******** server = http://********`
     * `key = ********`
-3. Add desired indexers in Indexers
+3. Add the download client with category mappings
+    * Audio -> lidarr
+    * TV -> sonarr
+    * Movies -> radarr
+4. Add desired indexers in Indexers
 
 ## Homer
 

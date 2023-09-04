@@ -53,6 +53,15 @@ spec:
           hostPath:
             path: "{{ selfhosted_storage_path }}/Media"
             type: DirectoryOrCreate
+        - name: downloads
+          hostPath:
+            path: "{{ selfhosted_seedbox_path }}/Transmission"
+            type: Directory
+      initContainers:
+        - name: mkdir
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          command: ["mkdir", "-p", "/downloads/sonarr"]
       containers:
         - name: sonarr
           image: ghcr.io/linuxserver/sonarr:4.0.0-develop
@@ -64,6 +73,9 @@ spec:
               mountPath: /config
             - name: library
               mountPath: /library
+            - name: downloads
+              mountPath: /downloads
+              readOnly: true
 
 ---
 

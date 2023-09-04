@@ -148,10 +148,14 @@ data:
 
       - name: "Downloads"
         items:
-          - name: "Transmission"
+          - name: "Transmission / selfhosted"
             subtitle: "Torrent client for general usage"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/transmission.png"
             url: "http://transmission.{{ selfhosted_hostname }}/"
+          - name: "Transmission / seedbox"
+            subtitle: "Torrent client on seedbox"
+            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/transmission.png"
+            url: "http://seedbox-transmission.{{ selfhosted_hostname }}/"
           - name: "Deluge"
             subtitle: "Torrent client for the *arr stack"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/deluge.png"

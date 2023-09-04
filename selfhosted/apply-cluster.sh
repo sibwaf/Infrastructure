@@ -28,6 +28,9 @@ read_property() {
 hostname=$(read_property selfhosted_hostname)
 storage_path=$(read_property selfhosted_storage_path)
 backup_path=$(read_property selfhosted_backup_path)
+seedbox_path=$(read_property selfhosted_seedbox_path)
+seedbox_hostname=$(read_property seedbox_hostname)
+transmission_ui_port=$(read_property seedbox_transmission_ui_port)
 
 merged_manifest=""
 for f in $(find selfhosted/kubernetes -name "*.yaml"); do
@@ -35,6 +38,9 @@ for f in $(find selfhosted/kubernetes -name "*.yaml"); do
     manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_hostname\s*}}#$hostname#g")
     manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_storage_path\s*}}#$storage_path#g")
     manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_backup_path\s*}}#$backup_path#g")
+    manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_seedbox_path\s*}}#$seedbox_path#g")
+    manifest=$(echo "$manifest" | sed "s#{{\s*seedbox_hostname\s*}}#$seedbox_hostname#g")
+    manifest=$(echo "$manifest" | sed "s#{{\s*seedbox_transmission_ui_port\s*}}#$transmission_ui_port#g")
 
 merged_manifest="$merged_manifest
 ---

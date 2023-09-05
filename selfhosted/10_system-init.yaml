@@ -6,7 +6,7 @@
     - "../vars.yaml"
 
   roles:
-    - "node-exporter"
+    - "prometheus-node-exporter"
 
   tasks:
     - name: "Create storage mount directory"

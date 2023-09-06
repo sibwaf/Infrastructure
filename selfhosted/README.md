@@ -5,6 +5,7 @@ Requires:
 2. kubectl
 3. yq
 4. openssh (for key generation)
+5. helm
 
 `inventory.yaml`
 ```yaml

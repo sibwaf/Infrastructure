@@ -49,3 +49,15 @@ $manifest
 done
 
 echo "$merged_manifest" | kubectl apply -f -
+
+for chart in $(find ./selfhosted/charts -mindepth 1 -maxdepth 1 -type d -exec basename {} \;); do
+    if [ -f defaults.yaml ]; then values_defaults="--values defaults.yaml"; fi
+    if [ -f vars.yaml ]; then values_vars="--values vars.yaml"; fi
+
+    helm upgrade --install \
+                 --atomic \
+                 --cleanup-on-fail \
+                 $values_defaults \
+                 $values_vars \
+                 "$chart" "./selfhosted/charts/$chart"
+done

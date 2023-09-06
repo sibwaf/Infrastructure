@@ -1,0 +1,61 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: "chown"
+          emptyDir: {}
+        - name: "config"
+          secret:
+            secretName: "{{ .Chart.Name }}"
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}"
+      initContainers:
+        - name: "chown"
+          image: "busybox"
+          imagePullPolicy: "IfNotPresent"
+          command: ["sh", "-c", "cp /id /chown/id && chown 1001:1001 /chown/id"]
+          volumeMounts:
+            - name: "chown"
+              mountPath: "/chown"
+            - name: "config"
+              subPath: "id"
+              mountPath: "/id"
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image: "sibwaf/gire:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "Never"
+          env:
+            - name: "GIRE_CRON"
+              value: "0 */15 * * * *"
+          ports:
+            - name: "ssh"
+              containerPort: 22
+          volumeMounts:
+            - name: "chown"
+              subPath: "id"
+              mountPath: "/keys/id"
+            - name: "config"
+              subPath: "trusted.pub"
+              mountPath: "/keys/trusted/trusted.pub"
+            - name: "config"
+              subPath: "sources.yaml"
+              mountPath: "/app/sources.yaml"
+            - name: "data"
+              mountPath: "/app/repositories"
+          resources:
+            limits:
+              memory: "64Mi"

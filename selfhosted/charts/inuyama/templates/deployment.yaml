@@ -1,0 +1,52 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: "secret"
+          secret:
+            secretName: "{{ .Chart.Name }}"
+        - name: "backups"
+          persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}-backups"
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image: "sibwaf/inuyama:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "Never"
+          env:
+            - name: "INUYAMA_SERVER_API_PORT"
+              value: "8080"
+            - name: "INUYAMA_AUTHENTICATION_USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "username"
+            - name: "INUYAMA_AUTHENTICATION_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "password"
+          ports:
+            - name: "http"
+              containerPort: 8080
+          volumeMounts:
+            - name: "backups"
+              mountPath: "/app/backups"
+            - name: "secret"
+              subPath: "server.key"
+              mountPath: "/app/server.key"
+          resources:
+            limits:
+              memory: "256Mi"

@@ -143,7 +143,7 @@ Requires opening UI to create an account.
 apiVersion: v1
 kind: Secret
 metadata:
-  name: gotify-credentials
+  name: gotify
 type: Opaque
 stringData:
   username: xxxxxx

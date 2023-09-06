@@ -41,6 +41,12 @@ delete_if_unmanaged ingress gonic
 delete_if_unmanaged service gonic
 delete_if_unmanaged deployment gonic
 
+# gotify
+make_managed persistentvolumeclaim gotify gotify
+delete_if_unmanaged ingress gotify
+delete_if_unmanaged service gotify
+delete_if_unmanaged deployment gotify
+
 # inuyama
 make_managed persistentvolumeclaim inuyama-backups inuyama
 delete_if_unmanaged ingress inuyama

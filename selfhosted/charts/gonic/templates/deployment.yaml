@@ -1,0 +1,46 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}"
+        - name: "library"
+          hostPath:
+            path: "{{ .Values.selfhosted_storage_path }}/Media/Music"
+            type: "DirectoryOrCreate"
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image: "sentriz/gonic:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: "GONIC_SCAN_WATCHER_ENABLED"
+              value: "true"
+            - name: "GONIC_GENRE_SPLIT"
+              value: ";"
+          ports:
+            - name: "http"
+              containerPort: 80
+          volumeMounts:
+            - name: "data"
+              mountPath: "/data"
+            - name: "library"
+              mountPath: "/music"
+              readOnly: true
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"

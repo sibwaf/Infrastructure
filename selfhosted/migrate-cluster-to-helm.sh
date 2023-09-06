@@ -35,6 +35,12 @@ delete_if_unmanaged() {
 make_managed persistentvolumeclaim gire gire
 delete_if_unmanaged deployment gire
 
+# gonic
+make_managed persistentvolumeclaim gonic gonic
+delete_if_unmanaged ingress gonic
+delete_if_unmanaged service gonic
+delete_if_unmanaged deployment gonic
+
 # inuyama
 make_managed persistentvolumeclaim inuyama-backups inuyama
 delete_if_unmanaged ingress inuyama

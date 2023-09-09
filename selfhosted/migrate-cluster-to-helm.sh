@@ -64,3 +64,9 @@ make_managed persistentvolumeclaim syncthing syncthing
 delete_if_unmanaged ingress syncthing
 delete_if_unmanaged service syncthing
 delete_if_unmanaged deployment syncthing
+
+# transmission
+make_managed persistentvolumeclaim transmission transmission
+delete_if_unmanaged ingress transmission
+delete_if_unmanaged service transmission
+delete_if_unmanaged deployment transmission

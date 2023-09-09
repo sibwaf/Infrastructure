@@ -174,7 +174,7 @@ stringData:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: transmission-credentials
+  name: transmission
 type: Opaque
 stringData:
   username: xxxxxx

@@ -1,0 +1,63 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "selectorLabels" . | nindent 6 }}
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        {{- include "selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}"
+        - name: "backup"
+          hostPath:
+            path: "{{ .Values.selfhosted_backup_path }}"
+            type: "Directory"
+      initContainers:
+        - name: "chown"
+          image: "busybox"
+          imagePullPolicy: "IfNotPresent"
+          command: ["sh", "-c", "if [ -d /var/syncthing/config ]; then chown -R 1000:1000 /var/syncthing/config; fi"]
+          volumeMounts:
+            - name: "data"
+              mountPath: "/var/syncthing"
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image: "syncthing/syncthing:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: "PUID"
+              value: "1000"
+            - name: "PGID"
+              value: "1000"
+          ports:
+            - name: "http"
+              containerPort: 8384
+            - name: "discovery"
+              containerPort: 21027
+              hostPort: 21027
+              protocol: "UDP"
+            - name: "tcp-data"
+              containerPort: 22000
+              hostPort: 22000
+              protocol: "TCP"
+            - name: "quic-data"
+              containerPort: 22000
+              hostPort: 22000
+              protocol: "UDP"
+          volumeMounts:
+            - name: "data"
+              mountPath: "/var/syncthing"
+            - name: "backup"
+              mountPath: "/backup"

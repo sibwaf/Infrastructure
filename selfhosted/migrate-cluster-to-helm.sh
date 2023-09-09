@@ -58,3 +58,9 @@ make_managed persistentvolumeclaim inuyama-backups inuyama
 delete_if_unmanaged ingress inuyama
 delete_if_unmanaged service inuyama
 delete_if_unmanaged deployment inuyama
+
+# syncthing
+make_managed persistentvolumeclaim syncthing syncthing
+delete_if_unmanaged ingress syncthing
+delete_if_unmanaged service syncthing
+delete_if_unmanaged deployment syncthing

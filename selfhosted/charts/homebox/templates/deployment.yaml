@@ -1,0 +1,30 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}"
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image: "ghcr.io/hay-kot/homebox:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: "http"
+              containerPort: 7745
+          volumeMounts:
+            - name: "data"
+              mountPath: "/data"

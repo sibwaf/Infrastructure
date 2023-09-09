@@ -47,6 +47,12 @@ delete_if_unmanaged ingress gotify
 delete_if_unmanaged service gotify
 delete_if_unmanaged deployment gotify
 
+# homebox
+make_managed persistentvolumeclaim homebox homebox
+delete_if_unmanaged ingress homebox
+delete_if_unmanaged service homebox
+delete_if_unmanaged deployment homebox
+
 # inuyama
 make_managed persistentvolumeclaim inuyama-backups inuyama
 delete_if_unmanaged ingress inuyama

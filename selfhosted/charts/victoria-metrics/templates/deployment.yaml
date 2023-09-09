@@ -1,0 +1,73 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "selectorLabels" . | nindent 6 }}
+  replicas: 1
+  strategy:
+    type: "Recreate"
+  template:
+    metadata:
+      labels:
+        {{- include "selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: "config"
+          emptyDir: {}
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}"
+      initContainers:
+        - name: "generate-config"
+          image: "busybox"
+          imagePullPolicy: "IfNotPresent"
+          envFrom:
+            - secretRef:
+                name: "{{ .Chart.Name }}"
+                optional: true
+          env:
+            - name: "PROMETHEUS_SCRAPE_0"
+              value: "cluster-host=10.0.1.1:9100"
+          command: ["sh", "-c", {{ .Files.Get "resources/generate-config.sh" | quote }}]
+          volumeMounts:
+            - name: "config"
+              mountPath: "/config"
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image: "victoriametrics/victoria-metrics:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: "USERNAME"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "username"
+            - name: "PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "password"
+          args:
+            - "-promscrape.config"
+            - "/config/prometheus.yml"
+            - "-relabelConfig"
+            - "/config/relabel.yml"
+            - "-retentionPeriod"
+            - "31d"
+            - "-httpAuth.username"
+            - "%{USERNAME}"
+            - "-httpAuth.password"
+            - "%{PASSWORD}"
+          ports:
+            - name: "http"
+              containerPort: 8428
+          volumeMounts:
+            - name: "config"
+              mountPath: "/config"
+            - name: "data"
+              mountPath: "/victoria-metrics-data"

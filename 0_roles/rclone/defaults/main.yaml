@@ -1,0 +1,10 @@
+rclone_use_github_release: false
+
+rclone_arch_mapping:
+  "aarch64": "arm64"
+  "x86_64": "amd64"
+
+rclone_version: "1.63.1"
+rclone_checksum:
+  "amd64": "sha256:ca1cb4b1d9a3e45d0704aa77651b0497eacc3e415192936a5be7f7272f2c94c5"
+  "arm64": "sha256:eab46bfb4e6567cd42bc14502cfd207582ed611746fa51a03542c8df619cf8f8"

@@ -1,0 +1,7 @@
+- name: "Install from native package manager"
+  include_tasks: "0_from_pkg_manager.yaml"
+  when: not rclone_use_github_release
+
+- name: "Install from GitHub"
+  include_tasks: "1_from_github.yaml"
+  when: rclone_use_github_release

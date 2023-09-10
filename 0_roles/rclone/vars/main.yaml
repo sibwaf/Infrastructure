@@ -1,0 +1,2 @@
+rclone_arch: "{{ rclone_arch_mapping[ansible_architecture] }}"
+rclone_artifact_name: "rclone-v{{ rclone_version }}-linux-{{ rclone_arch }}"

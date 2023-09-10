@@ -20,7 +20,8 @@
 
     - name: "Mount seedbox"
       ansible.builtin.include_role:
-        name: "automount-sshfs"
+        name: "automount-sftp"
       vars:
+        name: "seedbox"
         src: "{{ seedbox_storage_path }}"
         dest: "{{ selfhosted_seedbox_path }}"

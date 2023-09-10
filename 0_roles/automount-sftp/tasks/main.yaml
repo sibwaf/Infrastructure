@@ -1,0 +1,41 @@
+- name: "Install rclone"
+  ansible.builtin.include_role:
+    name: "rclone"
+
+- name: "Make rclone a valid fstype"
+  ansible.builtin.file:
+    src: "{{ '/usr/local/bin/rclone' if rclone_use_github_release else '/usr/bin/rclone' }}"
+    dest: "/sbin/mount.rclone"
+    state: "link"
+
+- name: "Create mount destination directory"
+  ansible.builtin.file:
+    path: "{{ dest }}"
+    state: "directory"
+
+- name: "Create rclone configuration directory"
+  ansible.builtin.file:
+    path: "/etc/rclone"
+    state: "directory"
+
+- name: "Create rclone connection configuration"
+  ansible.builtin.template:
+    src: "config.conf.j2"
+    dest: "/etc/rclone/{{ name }}.conf"
+
+- name: "Configure mounting"
+  vars:
+    systemd_opts: "noauto,nofail,x-systemd.automount,_netdev"
+    rclone_opts: "config=/etc/rclone/{{ name }}.conf,allow_other"
+  ansible.posix.mount:
+    path: "{{ dest }}"
+    src: "{{ name }}:{{ src }}"
+    fstype: "rclone"
+    opts: "{{ systemd_opts }},{{ rclone_opts }}"
+    state: "present"
+
+- name: "Reload systemd configuration and restart remote-fs.target"
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: "remote-fs.target"
+    state: "restarted"

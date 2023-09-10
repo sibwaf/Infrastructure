@@ -1,0 +1,9 @@
+- name: "Ensure GitHub release version is not installed"
+  ansible.builtin.file:
+    path: "/usr/local/bin/rclone"
+    state: "absent"
+
+- name: "Install rclone"
+  ansible.builtin.package:
+    name: "rclone"
+    state: "present"

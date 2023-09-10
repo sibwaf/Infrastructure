@@ -1,0 +1,25 @@
+- name: "Ensure native package manager version is not installed"
+  ansible.builtin.package:
+    name: "rclone"
+    state: "absent"
+
+- name: "Download rclone"
+  ansible.builtin.get_url:
+    url: "https://github.com/rclone/rclone/releases/download/v{{ rclone_version }}/{{ rclone_artifact_name }}.zip"
+    checksum: "{{ rclone_checksum[rclone_arch] }}"
+    dest: "/tmp/rclone-{{ rclone_version }}.zip"
+
+- name: "Unarchive rclone"
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "/tmp/rclone-{{ rclone_version }}.zip"
+    dest: "/tmp"
+
+- name: "Install rclone binary"
+  ansible.builtin.copy:
+    remote_src: true
+    src: "/tmp/{{ rclone_artifact_name }}/rclone"
+    dest: "/usr/local/bin"
+    mode: "755"
+    owner: "root"
+    group: "root"

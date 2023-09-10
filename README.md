@@ -14,3 +14,15 @@ One of the Wireguard servers is considered the "primary" one and is used to conn
 You probably wouldn't want to use the Kubernetes manifests the way they are, but at you should be able to refer to them for inspiration.
 
 *NOTICE*: everything (playbooks, scripts, ...) is meant to be run from the root directory of the repository!
+
+## General considerations
+
+Some software installed by Ansible must be pretty fresh. If some of your hosts do not have recent enough versions in their native repositories (e.g. Raspbian), you can enable installation of fresh(-ish) GitHub releases for such software.
+
+`inventory.yaml`
+```yaml
+selfhosted:
+  hosts:
+    hostname1:
+      rclone_use_github_release: true
+```

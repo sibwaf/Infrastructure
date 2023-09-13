@@ -1,0 +1,18 @@
+apiVersion: "networking.k8s.io/v1"
+kind: "Ingress"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  rules:
+    - host: "{{ .Chart.Name }}.{{ .Values.selfhosted_hostname }}"
+      http:
+        paths:
+          - pathType: "Prefix"
+            path: "/"
+            backend:
+              service:
+                name: "{{ .Chart.Name }}"
+                port:
+                  name: "http"

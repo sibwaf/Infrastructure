@@ -71,6 +71,12 @@ delete_if_unmanaged ingress prowlarr
 delete_if_unmanaged service prowlarr
 delete_if_unmanaged deployment prowlarr
 
+# sonarr
+make_managed persistentvolumeclaim sonarr sonarr
+delete_if_unmanaged ingress sonarr
+delete_if_unmanaged service sonarr
+delete_if_unmanaged deployment sonarr
+
 # syncthing
 make_managed persistentvolumeclaim syncthing syncthing
 delete_if_unmanaged ingress syncthing

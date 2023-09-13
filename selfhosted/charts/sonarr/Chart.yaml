@@ -1,0 +1,4 @@
+apiVersion: v2
+name: sonarr
+version: 1.0.0
+appVersion: "4.0.0-develop"

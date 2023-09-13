@@ -91,7 +91,7 @@ ssh-keygen -t ed25519 -f ./seedbox -P ""
 2. Import the image into the cluster with `microk8s ctr image import --base-name sibwaf/gire:latest FILENAME`
 3. Generate an SSH identity for Gire with `ssh-keygen -t ed25519 -f gire_id -P ""`
 
-`selfhosted/kubernetes/secrets/gire.yaml`
+`selfhosted/secrets/gire.yaml`
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -123,7 +123,7 @@ kubectl exec inuyama-temp -- /bin/sh -c "cat /app/server.key | base64"
 kubectl delete pod inuyama-temp
 ```
 
-`selfhosted/kubernetes/secrets/inuyama.yaml`
+`selfhosted/secrets/inuyama.yaml`
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -144,7 +144,7 @@ Requires opening UI to create an account.
 
 ## Gotify
 
-`selfhosted/kubernetes/secrets/gotify.yaml`
+`selfhosted/secrets/gotify.yaml`
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -162,7 +162,7 @@ Requires opening UI to create an account and configure scrobbling.
 
 ## Transmission
 
-`selfhosted/kubernetes/secrets/transmission.yaml`
+`selfhosted/secrets/transmission.yaml`
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -229,7 +229,7 @@ Requires opening UI to setup an account and configure.
 
 ## Homer
 
-`selfhosted/kubernetes/secrets/homer.yaml`
+`selfhosted/secrets/homer.yaml`
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -249,7 +249,7 @@ Requires opening UI to configure.
 
 ## VictoriaMetrics
 
-`selfhosted/kubernetes/secrets/victoria-metrics.yaml`
+`selfhosted/secrets/victoria-metrics.yaml`
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -266,7 +266,7 @@ stringData:
 ```
 
 ## Grafana
-`selfhosted/kubernetes/secrets/grafana.yaml`
+`selfhosted/secrets/grafana.yaml`
 ```yaml
 apiVersion: v1
 kind: Secret

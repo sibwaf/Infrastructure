@@ -67,6 +67,12 @@ ansible-playbook -i inventory.yaml \
                  selfhosted/29_cluster-pull-kubeconfig.yaml
 ```
 
+## Cleanup
+
+Some services come and go. To destroy whatever remains in the cluster for the ones that didn't fit my setup, use `selfhosted/cleanup-cluster.sh`.
+
+*Notice*: removes de-commissioned stuff without any prompting and is very destructive.
+
 ## Connecting to seedbox
 
 Currently there is no way to avoid configuring a valid seedbox connection. The seedbox should be already configured before deploying the cluster.

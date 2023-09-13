@@ -59,6 +59,12 @@ delete_if_unmanaged ingress inuyama
 delete_if_unmanaged service inuyama
 delete_if_unmanaged deployment inuyama
 
+# prowlarr
+make_managed persistentvolumeclaim prowlarr prowlarr
+delete_if_unmanaged ingress prowlarr
+delete_if_unmanaged service prowlarr
+delete_if_unmanaged deployment prowlarr
+
 # syncthing
 make_managed persistentvolumeclaim syncthing syncthing
 delete_if_unmanaged ingress syncthing

@@ -22,3 +22,9 @@ kube_delete secret gotify-credentials
 
 # transmission
 kube_delete secret transmission-credentials
+
+# kubernetes-dashboard
+kube_delete namespace kubernetes-dashboard
+kube_delete clusterrolebinding admin-user
+kube_delete clusterrolebinding kubernetes-dashboard
+kube_delete clusterrole kubernetes-dashboard

@@ -1,0 +1,48 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: "data"
+          persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}"
+        - name: "library"
+          hostPath:
+            path: "{{ .Values.selfhosted_storage_path }}/Media"
+            type: "DirectoryOrCreate"
+        - name: "downloads"
+          hostPath:
+            path: "{{ .Values.selfhosted_seedbox_path }}/Transmission"
+            type: "Directory"
+      initContainers:
+        - name: "mkdir"
+          image: "busybox"
+          imagePullPolicy: "IfNotPresent"
+          command: ["mkdir", "-p", "/downloads/radarr"]
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image: "ghcr.io/linuxserver/radarr:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: "http"
+              containerPort: 7878
+          volumeMounts:
+            - name: "data"
+              mountPath: "/config"
+            - name: "library"
+              mountPath: "/library"
+            - name: "downloads"
+              mountPath: "/downloads"
+              readOnly: true

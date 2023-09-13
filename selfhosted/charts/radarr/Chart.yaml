@@ -1,0 +1,4 @@
+apiVersion: v2
+name: radarr
+version: 1.0.0
+appVersion: "5.0.1-develop"

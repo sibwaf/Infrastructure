@@ -160,19 +160,6 @@ stringData:
 
 Requires opening UI to create an account and configure scrobbling.
 
-## Samba
-
-`selfhosted/kubernetes/secrets/samba.yaml`
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: samba-credentials
-type: Opaque
-stringData:
-  ACCOUNT_usernamehere: passwordhere
-```
-
 ## Transmission
 
 `selfhosted/kubernetes/secrets/transmission.yaml`

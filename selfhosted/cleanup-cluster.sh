@@ -34,3 +34,7 @@ kube_delete ingress deluge
 kube_delete service deluge
 kube_delete deployment deluge
 kube_delete pvc deluge
+
+# samba
+kube_delete deployment samba
+kube_delete secret samba-credentials

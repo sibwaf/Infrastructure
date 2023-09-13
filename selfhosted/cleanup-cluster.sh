@@ -28,3 +28,9 @@ kube_delete namespace kubernetes-dashboard
 kube_delete clusterrolebinding admin-user
 kube_delete clusterrolebinding kubernetes-dashboard
 kube_delete clusterrole kubernetes-dashboard
+
+# deluge
+kube_delete ingress deluge
+kube_delete service deluge
+kube_delete deployment deluge
+kube_delete pvc deluge

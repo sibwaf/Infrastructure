@@ -156,10 +156,6 @@ data:
             subtitle: "Torrent client on seedbox"
             logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/transmission.png"
             url: "http://seedbox-transmission.{{ selfhosted_hostname }}/"
-          - name: "Deluge"
-            subtitle: "Torrent client for the *arr stack"
-            logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/deluge.png"
-            url: "http://deluge.{{ selfhosted_hostname }}/"
 
       - name: "Tooling"
         items:

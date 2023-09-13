@@ -187,12 +187,6 @@ stringData:
   password: xxxxxx
 ```
 
-## Deluge
-
-Requires opening UI to configure:
-1. The default password is `deluge`, change it in UI Preferences -> Interface
-2. Enable `Label` plugin in Preferences -> Plugins
-
 ## Media: Lidarr, Sonarr, Radarr, Prowlarr
 
 Requires opening UI to setup an account and configure.

@@ -47,6 +47,12 @@ delete_if_unmanaged ingress gotify
 delete_if_unmanaged service gotify
 delete_if_unmanaged deployment gotify
 
+# grafana
+delete_if_unmanaged ingress grafana
+delete_if_unmanaged service grafana
+delete_if_unmanaged deployment grafana
+delete_if_unmanaged configmap grafana
+
 # homebox
 make_managed persistentvolumeclaim homebox homebox
 delete_if_unmanaged ingress homebox

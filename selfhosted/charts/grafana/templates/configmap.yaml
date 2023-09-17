@@ -1,0 +1,13 @@
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+data:
+  datasources.yaml: {{ .Files.Get "resources/datasources.yaml" | quote }}
+  dashboards.yaml: {{ .Files.Get "resources/dashboards.yaml" | quote }}
+
+  {{ range $path, $_ := .Files.Glob "resources/dashboards-*.json" }}
+    {{- base $path | nindent 2 }}: {{ $.Files.Get $path | quote }}
+  {{ end }}

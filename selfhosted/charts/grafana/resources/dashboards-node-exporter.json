@@ -1,0 +1,275 @@
+{
+  "title": "Node exporter",
+  "uid": "node-exporter",
+  "version": 1,
+  "editable": false,
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "refresh": "30s",
+  "templating": {
+    "list": [
+      {
+        "name": "job",
+        "type": "query",
+        "definition": "label_values(node_uname_info, job)",
+        "includeAll": false,
+        "multi": false,
+        "query": {
+          "query": "label_values(node_uname_info, job)",
+          "refId": "StandardVariableQuery"
+        },
+        "current": {},
+        "refresh": 1,
+        "sort": 1
+      },
+      {
+        "name": "instance",
+        "type": "query",
+        "definition": "label_values(node_uname_info{job=\"$job\"}, instance)",
+        "includeAll": false,
+        "multi": false,
+        "query": {
+          "query": "label_values(node_uname_info{job=\"$job\"}, instance)",
+          "refId": "StandardVariableQuery"
+        },
+        "current": {},
+        "refresh": 1,
+        "sort": 1
+      }
+    ]
+  },
+  "panels": [
+    {
+      "title": "CPU usage",
+      "type": "timeseries",
+      "gridPos": {
+        "w": 12,
+        "h": 8,
+        "x": 0,
+        "y": 0
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false,
+            "lineInterpolation": "smooth"
+          },
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "victoria-metrics"
+          },
+          "expr": "sum(irate(node_cpu_seconds_total{job=\"$job\",instance=\"$instance\",mode!=\"idle\"}[$__rate_interval])) / count(count(node_cpu_seconds_total{job=\"$job\",instance=\"$instance\"}) by (cpu))",
+          "legendFormat": "CPU usage"
+        }
+      ]
+    },
+    {
+      "title": "RAM/Swap usage",
+      "type": "timeseries",
+      "gridPos": {
+        "w": 12,
+        "h": 8,
+        "x": 12,
+        "y": 0
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false,
+            "lineInterpolation": "smooth",
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            }
+          },
+          "unit": "decbytes",
+          "min": 0
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "total"
+            },
+            "properties": [
+              {
+                "id": "custom.stacking",
+                "value": {
+                  "group": "A",
+                  "mode": "none"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "victoria-metrics"
+          },
+          "expr": "node_memory_MemTotal_bytes{job=\"$job\",instance=\"$instance\"} - node_memory_MemFree_bytes{job=\"$job\",instance=\"$instance\"} - node_memory_Cached_bytes{job=\"$job\",instance=\"$instance\"}",
+          "legendFormat": "RAM usage"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "victoria-metrics"
+          },
+          "expr": "node_memory_Cached_bytes{job=\"$job\",instance=\"$instance\"}",
+          "legendFormat": "RAM cache usage"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "victoria-metrics"
+          },
+          "expr": "node_memory_SwapTotal_bytes{job=\"$job\",instance=\"$instance\"} - node_memory_SwapFree_bytes{job=\"$job\",instance=\"$instance\"}",
+          "legendFormat": "Swap usage"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "victoria-metrics"
+          },
+          "expr": "node_memory_MemTotal_bytes{job=\"$job\",instance=\"$instance\"} + node_memory_SwapTotal_bytes{job=\"$job\",instance=\"$instance\"}",
+          "legendFormat": "Total memory",
+          "refId": "total"
+        }
+      ]
+    },
+
+    {
+      "title": "Temperature",
+      "type": "timeseries",
+      "gridPos": {
+        "w": 12,
+        "h": 8,
+        "x": 0,
+        "y": 8
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false,
+            "lineInterpolation": "smooth"
+          },
+          "unit": "celsius"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "victoria-metrics"
+          },
+          "expr": "node_thermal_zone_temp{job=\"$job\",instance=\"$instance\"}",
+          "legendFormat": "{{type}} {{zone}}"
+        }
+      ]
+    },
+    {
+      "title": "Storage usage",
+      "type": "bargauge",
+      "gridPos": {
+        "w": 12,
+        "h": 8,
+        "x": 12,
+        "y": 8
+      },
+      "options": {
+        "orientation": "horizontal"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "value": null,
+                "color": "green"
+              },
+              {
+                "value": 0.7,
+                "color": "yellow"
+              },
+              {
+                "value": 0.85,
+                "color": "red"
+              }
+            ]
+          },
+          "color": {
+            "mode": "thresholds"
+          },
+          "unit": "percentunit",
+          "min": 0,
+          "max": 1
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "victoria-metrics"
+          },
+          "expr": "(node_filesystem_size_bytes{job=\"$job\",instance=\"$instance\",fstype!=\"tmpfs\",mountpoint!~\"/var/snap/.*\"} - node_filesystem_free_bytes{job=\"$job\",instance=\"$instance\",fstype!=\"tmpfs\",mountpoint!~\"/var/snap/.*\"}) / node_filesystem_size_bytes{job=\"$job\",instance=\"$instance\",fstype!=\"tmpfs\",mountpoint!~\"/var/snap/.*\"}",
+          "legendFormat": "{{mountpoint}}"
+        }
+      ]
+    },
+
+    {
+      "title": "Total inbound/outbound traffic",
+      "type": "timeseries",
+      "gridPos": {
+        "w": 24,
+        "h": 8,
+        "x": 0,
+        "y": 16
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "spanNulls": false,
+            "lineInterpolation": "smooth",
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            }
+          },
+          "unit": "decbytes"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "victoria-metrics"
+          },
+          "expr": "running_sum(sum(increase(node_network_receive_bytes_total{job=\"$job\",instance=\"$instance\",device!~\".*cali.*\",device!~\"wg\\\\d+\",device!=\"lo\"})))",
+          "legendFormat": "Inbound"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "victoria-metrics"
+          },
+          "expr": "running_sum(sum(increase(node_network_transmit_bytes_total{job=\"$job\",instance=\"$instance\",device!~\".*cali.*\",device!~\"wg\\\\d+\",device!=\"lo\"})))",
+          "legendFormat": "Outbound"
+        }
+      ],
+      "timeFrom": "now/M"
+    }
+  ]
+}

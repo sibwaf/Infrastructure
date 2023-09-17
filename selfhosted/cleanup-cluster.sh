@@ -38,3 +38,7 @@ kube_delete pvc deluge
 # samba
 kube_delete deployment samba
 kube_delete secret samba-credentials
+
+# grafana
+kube_delete configmap grafana-dashboard-vpn
+kube_delete configmap grafana-dashboard-node-exporter

@@ -6,6 +6,8 @@ After=network-online.target
 [Service]
 Type=simple
 ExecStart=/usr/local/bin/prometheus_wireguard_exporter -n /etc/wireguard/wg0.conf
+Restart=always
+RestartSec=4
 
 [Install]
 WantedBy=multi-user.target

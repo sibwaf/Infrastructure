@@ -22,6 +22,8 @@ spec:
           hostPath:
             path: "{{ .Values.selfhosted_storage_path }}/Media/Music"
             type: "DirectoryOrCreate"
+        - name: "playlists"
+          emptyDir: {}
       containers:
         - name: "{{ .Chart.Name }}"
           image: "sentriz/gonic:{{ .Chart.AppVersion }}"
@@ -31,6 +33,8 @@ spec:
               value: "true"
             - name: "GONIC_GENRE_SPLIT"
               value: ";"
+            - name: "GONIC_PLAYLISTS_PATH"
+              value: "/playlists"
           ports:
             - name: "http"
               containerPort: 80
@@ -40,6 +44,8 @@ spec:
             - name: "library"
               mountPath: "/music"
               readOnly: true
+            - name: "playlists"
+              mountPath: "/playlists"
           resources:
             limits:
               memory: "256Mi"

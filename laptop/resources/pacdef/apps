@@ -10,6 +10,8 @@ ncdu
 nmap
 obsidian
 pinta
+profile-cleaner
+rclone
 reaper
 syncthing
 telegram-desktop
@@ -27,13 +29,14 @@ bombardier
 cloc
 git
 git-lfs
+helm
 intellij-idea-community-edition
 k9s
 kubectl
 visual-studio-code-bin
 
 # media
-jellyfin-bin
+jellyfin-server
 mpv
 mpv-mpris
 picard

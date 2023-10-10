@@ -12,8 +12,6 @@ qgnomeplatform-qt6
 gnome-themes-extra
 
 baobab
-cheese
-eog
 evince
 file-roller
 gnome-backgrounds
@@ -42,8 +40,10 @@ gnome-terminal
 gnome-text-editor
 gnome-tweaks
 gnome-user-share
+loupe
 rygel
 seahorse
+snapshot
 
 nautilus
 python-nautilus # for gnome-shell-extension-gsconnect

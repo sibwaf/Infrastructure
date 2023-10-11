@@ -1,0 +1,44 @@
+:80 {
+  @lidarr {
+    path /proxy/lidarr/api/v1/health
+    path /proxy/lidarr/api/v1/queue/status
+  }
+  route @lidarr {
+    rewrite ?apikey={$LIDARR_TOKEN}
+    uri strip_prefix /proxy/lidarr
+    reverse_proxy http://lidarr
+  }
+
+  @radarr {
+    path /proxy/radarr/api/v3/health
+    path /proxy/radarr/api/v3/queue
+  }
+  route @radarr {
+    rewrite ?apikey={$RADARR_TOKEN}
+    uri strip_prefix /proxy/radarr
+    reverse_proxy http://radarr
+  }
+
+  @sonarr {
+    path /proxy/sonarr/api/v3/health
+    path /proxy/sonarr/api/v3/queue
+  }
+  route @sonarr {
+    rewrite ?apikey={$SONARR_TOKEN}
+    uri strip_prefix /proxy/sonarr
+    reverse_proxy http://sonarr
+  }
+
+  @prowlarr {
+    path /proxy/prowlarr/api/v1/health
+  }
+  route @prowlarr {
+    rewrite ?apikey={$PROWLARR_TOKEN}
+    uri strip_prefix /proxy/prowlarr
+    reverse_proxy http://prowlarr
+  }
+
+  error /proxy/* 418
+
+  reverse_proxy http://localhost:8080
+}

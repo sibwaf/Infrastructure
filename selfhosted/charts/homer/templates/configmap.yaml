@@ -1,0 +1,11 @@
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+data:
+  Caddyfile: |-
+    {{- .Files.Get "resources/Caddyfile" | nindent 4 }}
+  homer.yaml: |-
+    {{- include "homerConfig" . | nindent 4 }}

@@ -1,0 +1,96 @@
+{{- define "homerConfig" -}}
+header: false
+footer: false
+
+defaults:
+  layout: "list"
+
+columns: 3
+
+connectivityCheck: true
+
+proxy:
+  useCredentials: false
+
+services:
+  - name: "General"
+    items:
+      - name: "Inuyama"
+        url: "http://inuyama.{{ .Values.selfhosted_hostname }}/"
+      - name: "Homebox"
+        subtitle: "Inventory management"
+        url: "http://homebox.{{ .Values.selfhosted_hostname }}/"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/homebox.png"
+
+  - name: "Monitoring"
+    items:
+      - name: "VictoriaMetrics"
+        subtitle: "Metrics collection and storage"
+        logo: "https://docs.victoriametrics.com/assets/images/favicon.svg"
+        url: "http://victoria-metrics.{{ .Values.selfhosted_hostname }}/"
+      - name: "Grafana"
+        subtitle: "Dashboards"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"
+        url: "http://grafana.{{ .Values.selfhosted_hostname }}/"
+      - name: "Grafana / VPN"
+        subtitle: "VPN usage dashboard"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"
+        url: "http://grafana.{{ .Values.selfhosted_hostname }}/d/vpn/"
+      - name: "Grafana / Nodes"
+        subtitle: "Node statistics"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"
+        url: "http://grafana.{{ .Values.selfhosted_hostname }}/d/node-exporter/"
+
+  - name: "Media"
+    items:
+      - name: "Gonic"
+        subtitle: "Music streaming"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/gonic.png"
+        url: "http://gonic.{{ .Values.selfhosted_hostname }}/"
+      - name: "Lidarr"
+        subtitle: "Music library management"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/lidarr.png"
+        url: "http://lidarr.{{ .Values.selfhosted_hostname }}/"
+        endpoint: "http://{{ .Values.selfhosted_hostname }}/proxy/lidarr"
+        type: "Lidarr"
+      - name: "Sonarr"
+        subtitle: "TV series library management"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/sonarr.png"
+        url: "http://sonarr.{{ .Values.selfhosted_hostname }}/"
+        endpoint: "http://{{ .Values.selfhosted_hostname }}/proxy/sonarr"
+        type: "Sonarr"
+      - name: "Radarr"
+        subtitle: "Movie library management"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/radarr.png"
+        url: "http://radarr.{{ .Values.selfhosted_hostname }}/"
+        endpoint: "http://{{ .Values.selfhosted_hostname }}/proxy/radarr"
+        type: "Radarr"
+      - name: "Prowlarr"
+        subtitle: "Source management for the *arr stack"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/prowlarr.png"
+        url: "http://prowlarr.{{ .Values.selfhosted_hostname }}/"
+        endpoint: "http://{{ .Values.selfhosted_hostname }}/proxy/prowlarr"
+        type: "Prowlarr"
+
+  - name: "Downloads"
+    items:
+      - name: "Transmission / selfhosted"
+        subtitle: "Torrent client for general usage"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/transmission.png"
+        url: "http://transmission.{{ .Values.selfhosted_hostname }}/"
+      - name: "Transmission / seedbox"
+        subtitle: "Torrent client on seedbox"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/transmission.png"
+        url: "http://seedbox-transmission.{{ .Values.selfhosted_hostname }}/"
+
+  - name: "Tooling"
+    items:
+      - name: "Gotify"
+        subtitle: "Push notification server"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/gotify.png"
+        url: "http://gotify.{{ .Values.selfhosted_hostname }}/"
+      - name: "Syncthing"
+        subtitle: "File synchronization"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/syncthing.png"
+        url: "http://syncthing.{{ .Values.selfhosted_hostname }}/"
+{{- end -}}

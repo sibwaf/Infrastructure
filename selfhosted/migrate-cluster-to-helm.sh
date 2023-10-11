@@ -59,6 +59,12 @@ delete_if_unmanaged ingress homebox
 delete_if_unmanaged service homebox
 delete_if_unmanaged deployment homebox
 
+# homer
+delete_if_unmanaged ingress homer
+delete_if_unmanaged service homer
+delete_if_unmanaged deployment homer
+delete_if_unmanaged configmap homer
+
 # inuyama
 make_managed persistentvolumeclaim inuyama-backups inuyama
 delete_if_unmanaged ingress inuyama

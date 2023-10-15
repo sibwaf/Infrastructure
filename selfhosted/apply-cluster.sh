@@ -59,6 +59,7 @@ for chart in $(find ./selfhosted/charts -mindepth 1 -maxdepth 1 -type d -exec ba
     helm upgrade --install \
                  --atomic \
                  --cleanup-on-fail \
+                 --history-max 1 \
                  $values_defaults \
                  $values_vars \
                  "$chart" "./selfhosted/charts/$chart"

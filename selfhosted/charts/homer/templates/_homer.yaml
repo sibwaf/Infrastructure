@@ -40,6 +40,10 @@ services:
         subtitle: "Node statistics"
         logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"
         url: "http://grafana.{{ .Values.selfhosted_hostname }}/d/node-exporter/"
+      - name: "Grafana / Logs"
+        subtitle: "Application logs"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/grafana.png"
+        url: "http://grafana.{{ .Values.selfhosted_hostname }}/d/logs/?viewPanel=1"
 
   - name: "Media"
     items:

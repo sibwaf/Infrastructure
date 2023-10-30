@@ -1,0 +1,67 @@
+{
+  "title": "Logs",
+  "uid": "logs",
+  "version": 1,
+  "editable": false,
+  "templating": {
+    "list": [
+      {
+        "name": "job",
+        "type": "query",
+        "definition": "",
+        "includeAll": false,
+        "multi": false,
+        "datasource": {
+          "type": "loki",
+          "uid": "loki"
+        },
+        "query": {
+          "label": "job",
+          "refId": "LokiVariableQueryEditor-VariableQuery",
+          "stream": "",
+          "type": 1
+        },
+        "current": {},
+        "refresh": 1,
+        "sort": 1
+      },
+      {
+        "name": "query",
+        "type": "textbox",
+        "current": {},
+        "query": ""
+      }
+    ]
+  },
+  "panels": [
+    {
+      "title": "Logs",
+      "type": "logs",
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Ascending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "loki"
+          },
+          "expr": "{job=~\"$job\"} |~ `(?i)$query`"
+        }
+      ]
+    }
+  ]
+}

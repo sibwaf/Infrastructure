@@ -11,3 +11,11 @@ datasources:
     basicAuthUser: $VM_USERNAME
     secureJsonData:
       basicAuthPassword: $VM_PASSWORD
+
+  - name: Loki
+    type: loki
+    access: proxy
+    uid: loki
+    url: http://loki
+    editable: false
+    isDefault: false

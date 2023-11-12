@@ -47,6 +47,9 @@ selfhosted_vpn_servers: # has default
     ip6_subnet: "fd00::0/112"
     dns: ["1.1.1.1", "1.0.0.1"]
 
+selfhosted_gotify_username: xxxxxx # required
+selfhosted_gotify_password: xxxxxx # required
+
 # --------
 
 seedbox_hostname: seedbox.example # required
@@ -144,16 +147,12 @@ Requires opening UI to create an account.
 
 ## Gotify
 
-`selfhosted/secrets/gotify.yaml`
+Configure the initial admin username/password and setup application/client tokens via UI.
+
+`vars.yaml`
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: gotify
-type: Opaque
-stringData:
-  username: xxxxxx
-  password: xxxxxx
+selfhosted_gotify_username: xxxxxx
+selfhosted_gotify_password: xxxxxx
 ```
 
 ## Gonic

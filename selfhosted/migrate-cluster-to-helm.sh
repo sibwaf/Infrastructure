@@ -46,6 +46,7 @@ make_managed persistentvolumeclaim gotify gotify
 delete_if_unmanaged ingress gotify
 delete_if_unmanaged service gotify
 delete_if_unmanaged deployment gotify
+delete_if_unmanaged secret gotify
 
 # grafana
 delete_if_unmanaged ingress grafana

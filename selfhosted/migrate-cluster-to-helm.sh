@@ -108,6 +108,7 @@ make_managed persistentvolumeclaim transmission transmission
 delete_if_unmanaged ingress transmission
 delete_if_unmanaged service transmission
 delete_if_unmanaged deployment transmission
+delete_if_unmanaged secret transmission
 
 # victoria-metrics
 make_managed persistentvolumeclaim victoria-metrics victoria-metrics

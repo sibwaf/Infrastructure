@@ -53,6 +53,9 @@ selfhosted_gotify_password: xxxxxx # required
 selfhosted_grafana_username: xxxxxx # required
 selfhosted_grafana_password: xxxxxx # required
 
+selfhosted_transmission_username: xxxxxx # required
+selfhosted_transmission_password: xxxxxx # required
+
 # --------
 
 seedbox_hostname: seedbox.example # required
@@ -164,16 +167,12 @@ Requires opening UI to create an account and configure scrobbling.
 
 ## Transmission
 
-`selfhosted/secrets/transmission.yaml`
+Configure the credentials.
+
+`vars.yaml`
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: transmission
-type: Opaque
-stringData:
-  username: xxxxxx
-  password: xxxxxx
+username: xxxxxx
+password: xxxxxx
 ```
 
 ## Media: Lidarr, Sonarr, Radarr, Prowlarr

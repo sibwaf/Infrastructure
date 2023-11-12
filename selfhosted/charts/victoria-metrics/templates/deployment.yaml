@@ -18,25 +18,11 @@ spec:
     spec:
       volumes:
         - name: "config"
-          emptyDir: {}
+          configMap:
+            name: "{{ .Chart.Name }}"
         - name: "data"
           persistentVolumeClaim:
             claimName: "{{ .Chart.Name }}"
-      initContainers:
-        - name: "generate-config"
-          image: "busybox"
-          imagePullPolicy: "IfNotPresent"
-          envFrom:
-            - secretRef:
-                name: "{{ .Chart.Name }}"
-                optional: true
-          env:
-            - name: "PROMETHEUS_SCRAPE_0"
-              value: "cluster-host=10.0.1.1:9100"
-          command: ["sh", "-c", {{ .Files.Get "resources/generate-config.sh" | quote }}]
-          volumeMounts:
-            - name: "config"
-              mountPath: "/config"
       containers:
         - name: "{{ .Chart.Name }}"
           image: "victoriametrics/victoria-metrics:{{ .Chart.AppVersion }}"

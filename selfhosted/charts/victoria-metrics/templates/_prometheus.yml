@@ -1,0 +1,15 @@
+{{- define "vmConfig" -}}
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  {{- range .Values.selfhosted_victoriametrics_scrapes }}
+  - job_name: "{{ .name }}"
+    static_configs:
+      - targets: ["{{ .address }}"]
+        {{- if .labels }}
+        labels:
+          {{- toYaml .labels | nindent 10 }}
+        {{- end }}
+  {{- end }}
+{{- end -}}

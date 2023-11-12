@@ -115,3 +115,4 @@ make_managed persistentvolumeclaim victoria-metrics victoria-metrics
 delete_if_unmanaged ingress victoria-metrics
 delete_if_unmanaged service victoria-metrics
 delete_if_unmanaged deployment victoria-metrics
+delete_if_unmanaged secret victoria-metrics

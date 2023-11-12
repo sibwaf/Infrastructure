@@ -1,0 +1,11 @@
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+data:
+  prometheus.yml: |-
+    {{- include "vmConfig" . | nindent 4 }}
+  relabel.yml: |-
+    {{- .Files.Get "resources/relabel.yml" | nindent 4 }}

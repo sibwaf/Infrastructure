@@ -1,0 +1,9 @@
+- action: "labelmap"
+  if: "xray_sent_bytes_total"
+  regex: "email"
+  replacement: "user_name"
+
+- action: "labelmap"
+  if: "xray_received_bytes_total"
+  regex: "email"
+  replacement: "user_name"

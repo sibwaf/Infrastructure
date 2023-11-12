@@ -53,8 +53,19 @@ selfhosted_gotify_password: xxxxxx # required
 selfhosted_grafana_username: xxxxxx # required
 selfhosted_grafana_password: xxxxxx # required
 
+selfhosted_tapesonic_username: xxxxxx # required
+selfhosted_tapesonic_password: xxxxxx # required
+
 selfhosted_transmission_username: xxxxxx # required
 selfhosted_transmission_password: xxxxxx # required
+
+selfhosted_victoriametrics_username: xxxxxx # required
+selfhosted_victoriametrics_password: xxxxxx # required
+selfhosted_victoriametrics_scrapes: # has default
+  - name: cluster-host # required
+    address: 10.0.1.1:9100 # required
+    labels: # optional
+      label_name: label_value
 
 # --------
 
@@ -250,20 +261,17 @@ Requires opening UI to configure.
 
 ## VictoriaMetrics
 
-`selfhosted/secrets/victoria-metrics.yaml`
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: victoria-metrics
-type: Opaque
-stringData:
-  username: xxxxxx
-  password: xxxxxx
+Configure the credentials and Prometheus scrapes.
 
-  PROMETHEUS_SCRAPE_1: name=address
-  PROMETHEUS_SCRAPE_2: name=address
-  PROMETHEUS_LABELS_2: a=b;c=d
+`vars.yaml`
+```yaml
+selfhosted_victoriametrics_username: xxxxxx
+selfhosted_victoriametrics_password: xxxxxx
+selfhosted_victoriametrics_scrapes:
+  - name: job-name
+    address: 1.2.3.4:9100
+    labels:
+      abc: xyz
 ```
 
 ## Grafana

@@ -23,6 +23,10 @@ selfhosted_seedbox_ssh_key_path: /etc/ssh-keys/seedbox
 
 selfhosted_vpn_servers: []
 
+selfhosted_victoriametrics_scrapes:
+  - name: "cluster-host"
+    address: "10.0.1.1:9100"
+
 # ---------
 
 seedbox_transmission_ui_port: 9091

@@ -50,6 +50,9 @@ selfhosted_vpn_servers: # has default
 selfhosted_gotify_username: xxxxxx # required
 selfhosted_gotify_password: xxxxxx # required
 
+selfhosted_grafana_username: xxxxxx # required
+selfhosted_grafana_password: xxxxxx # required
+
 # --------
 
 seedbox_hostname: seedbox.example # required
@@ -265,14 +268,11 @@ stringData:
 ```
 
 ## Grafana
-`selfhosted/secrets/grafana.yaml`
+
+Configure the admin credentials.
+
+`vars.yaml`
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: grafana
-type: Opaque
-stringData:
-  GF_SECURITY_ADMIN_USER: xxxxxx
-  GF_SECURITY_ADMIN_PASSWORD: xxxxxx
+selfhosted_grafana_username: xxxxxx
+selfhosted_grafana_password: xxxxxx
 ```

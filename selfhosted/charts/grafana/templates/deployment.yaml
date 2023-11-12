@@ -22,10 +22,17 @@ spec:
         - name: "{{ .Chart.Name }}"
           image: "grafana/grafana-oss:{{ .Chart.AppVersion }}"
           imagePullPolicy: "IfNotPresent"
-          envFrom:
-            - secretRef:
-                name: "{{ .Chart.Name }}"
           env:
+            - name: "GF_SECURITY_ADMIN_USER"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "username"
+            - name: "GF_SECURITY_ADMIN_PASSWORD"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "password"
             - name: "VM_USERNAME"
               valueFrom:
                 secretKeyRef:

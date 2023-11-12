@@ -53,6 +53,7 @@ delete_if_unmanaged ingress grafana
 delete_if_unmanaged service grafana
 delete_if_unmanaged deployment grafana
 delete_if_unmanaged configmap grafana
+delete_if_unmanaged secret grafana
 
 # homebox
 make_managed persistentvolumeclaim homebox homebox

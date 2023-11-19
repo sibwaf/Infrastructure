@@ -72,6 +72,7 @@ make_managed persistentvolumeclaim inuyama-backups inuyama
 delete_if_unmanaged ingress inuyama
 delete_if_unmanaged service inuyama
 delete_if_unmanaged deployment inuyama
+delete_if_unmanaged secret inuyama
 
 # lidarr
 make_managed persistentvolumeclaim lidarr lidarr

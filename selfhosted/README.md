@@ -53,8 +53,13 @@ selfhosted_gotify_password: xxxxxx # required
 selfhosted_grafana_username: xxxxxx # required
 selfhosted_grafana_password: xxxxxx # required
 
-selfhosted_tapesonic_username: xxxxxx # required
-selfhosted_tapesonic_password: xxxxxx # required
+selfhosted_inuyama_username: xxxxxx # required
+selfhosted_inuyama_password: xxxxxx # required
+selfhosted_inuyama_exchangeratehost_token: xxxxxx # required
+selfhosted_inuyama_server_key: | # required
+  base64
+  encoded
+  key
 
 selfhosted_transmission_username: xxxxxx # required
 selfhosted_transmission_password: xxxxxx # required
@@ -132,7 +137,7 @@ stringData:
       authToken: xxxxxx
 ```
 
-## Inuyama
+## Inuyama / https://github.com/sibwaf/Inuyama
 
 1. Build the image and export it as a .tar file
 2. Import the image into the cluster with `microk8s ctr image import --base-name sibwaf/inuyama:latest FILENAME`
@@ -142,20 +147,17 @@ kubectl run inuyama-temp --image-pull-policy=Never --image sibwaf/inuyama:latest
 kubectl exec inuyama-temp -- /bin/sh -c "cat /app/server.key | base64"
 kubectl delete pod inuyama-temp
 ```
+4. Register at https://exchangerate.host and get an access token
 
-`selfhosted/secrets/inuyama.yaml`
+`vars.yaml`
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: inuyama
-type: Opaque
-stringData:
-  username: xxxxxx
-  password: xxxxxx
-data:
-  server.key: |
-    xxxxxx
+selfhosted_inuyama_username: xxxxxx
+selfhosted_inuyama_password: xxxxxx
+selfhosted_inuyama_exchangeratehost_token: xxxxxx
+selfhosted_inuyama_server_key: |
+  base64
+  encoded
+  key
 ```
 
 ## Homebox

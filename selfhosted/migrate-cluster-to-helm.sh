@@ -34,6 +34,7 @@ delete_if_unmanaged() {
 # gire
 make_managed persistentvolumeclaim gire gire
 delete_if_unmanaged deployment gire
+delete_if_unmanaged secret gire
 
 # gonic
 make_managed persistentvolumeclaim gonic gonic

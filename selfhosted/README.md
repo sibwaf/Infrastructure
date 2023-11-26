@@ -47,6 +47,15 @@ selfhosted_vpn_servers: # has default
     ip6_subnet: "fd00::0/112"
     dns: ["1.1.1.1", "1.0.0.1"]
 
+selfhosted_gire_private_key: | # required
+  -----BEGIN OPENSSH PRIVATE KEY-----
+  xxxxxx
+  -----END OPENSSH PRIVATE KEY-----
+selfhosted_gire_known_hosts: # required
+  - github.com ssh-rsa xxxxxx
+selfhosted_gire_sources: # required
+  - url: xxxxxx
+
 selfhosted_gotify_username: xxxxxx # required
 selfhosted_gotify_password: xxxxxx # required
 
@@ -116,25 +125,16 @@ ssh-keygen -t ed25519 -f ./seedbox -P ""
 2. Import the image into the cluster with `microk8s ctr image import --base-name sibwaf/gire:latest FILENAME`
 3. Generate an SSH identity for Gire with `ssh-keygen -t ed25519 -f gire_id -P ""`
 
-`selfhosted/secrets/gire.yaml`
+`vars.yaml`
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: gire
-type: Opaque
-stringData:
-  id: | # the private key contents
-    xxxxxx
-
-  trusted.pub: | # ssh-keyscan github.com
-    xxxxxx
-    xxxxxx
-
-  sources.yaml: |
-    - url: https://github.com/USERNAME
-      type: github
-      authToken: xxxxxx
+selfhosted_gire_private_key: | # the private key contents
+  -----BEGIN OPENSSH PRIVATE KEY-----
+  xxxxxx
+  -----END OPENSSH PRIVATE KEY-----
+selfhosted_gire_known_hosts: # ssh-keyscan github.com
+  - github.com ssh-rsa xxxxxx
+selfhosted_gire_sources: # see gire's readme
+  - url: xxxxxx
 ```
 
 ## Inuyama / https://github.com/sibwaf/Inuyama

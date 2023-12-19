@@ -50,6 +50,8 @@ ln -si "$(pwd)/laptop/resources/dotfiles/wireplumber/policy.lua.d/11-bluetooth-p
 
 ln -si "$(pwd)/laptop/resources/dotfiles/electron-flags.conf" ~/.config/code-flags.conf
 ln -si "$(pwd)/laptop/resources/dotfiles/electron-flags.conf" ~/.config/electron-flags.conf
+
+ln -si "$(pwd)/laptop/resources/dotfiles/alsoft.conf" ~/.config/alsoft.conf
 ```
 
 ## Packages

@@ -25,8 +25,6 @@ spec:
           env:
             - name: "INIT_ASSETS"
               value: "0"
-          # ports:
-          #   - containerPort: 8080
           volumeMounts:
             - name: "config"
               subPath: "homer.yaml"
@@ -38,9 +36,27 @@ spec:
         - name: "auth-proxy"
           image: "caddy:2.6.4"
           imagePullPolicy: "IfNotPresent"
-          envFrom:
-            - secretRef:
-                name: "{{ .Chart.Name }}"
+          env:
+            - name: "LIDARR_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "lidarr-token"
+            - name: "PROWLARR_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "prowlarr-token"
+            - name: "RADARR_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "radarr-token"
+            - name: "SONARR_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Chart.Name }}"
+                  key: "sonarr-token"
           ports:
             - name: "http"
               containerPort: 80

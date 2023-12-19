@@ -67,6 +67,7 @@ delete_if_unmanaged ingress homer
 delete_if_unmanaged service homer
 delete_if_unmanaged deployment homer
 delete_if_unmanaged configmap homer
+delete_if_unmanaged secret homer
 
 # inuyama
 make_managed persistentvolumeclaim inuyama-backups inuyama

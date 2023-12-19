@@ -70,6 +70,14 @@ selfhosted_inuyama_server_key: | # required
   encoded
   key
 
+selfhosted_lidarr_token: xxxxxx # required
+
+selfhosted_prowlarr_token: xxxxxx # required
+
+selfhosted_radarr_token: xxxxxx # required
+
+selfhosted_sonarr_token: xxxxxx # required
+
 selfhosted_transmission_username: xxxxxx # required
 selfhosted_transmission_password: xxxxxx # required
 
@@ -243,18 +251,17 @@ Requires opening UI to setup an account and configure.
 
 ## Homer
 
-`selfhosted/secrets/homer.yaml`
+*arr tokens can be found in Settings -> General in matching services.
+
+`vars.yaml`
 ```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: homer
-type: Opaque
-stringData:
-  PROWLARR_TOKEN: xxxxxx
-  LIDARR_TOKEN: xxxxxx
-  SONARR_TOKEN: xxxxxx
-  RADARR_TOKEN: xxxxxx
+selfhosted_lidarr_token: xxxxxx
+
+selfhosted_prowlarr_token: xxxxxx
+
+selfhosted_radarr_token: xxxxxx
+
+selfhosted_sonarr_token: xxxxxx
 ```
 
 ## Syncthing

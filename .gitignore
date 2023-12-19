@@ -1,5 +1,4 @@
 .vscode
 
-secrets/
 inventory.yaml
 vars.yaml

@@ -16,7 +16,7 @@ staticcheck
 jdk11-openjdk
 jdk17-openjdk
 
-nodejs-lts-gallium
+nodejs-lts-hydrogen
 npm
 
 python

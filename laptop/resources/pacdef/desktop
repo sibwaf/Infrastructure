@@ -4,13 +4,6 @@ plymouth-theme-dragon-git
 
 gdm
 
-# consistent look-and-feel for qt applications
-adwaita-qt5
-adwaita-qt6
-qgnomeplatform-qt5
-qgnomeplatform-qt6
-gnome-themes-extra
-
 baobab
 evince
 file-roller
@@ -94,7 +87,11 @@ gst-plugins-good
 gst-plugins-ugly
 gst-libav
 
+# wayland
+qt5-wayland
+qt6-wayland
 wl-clipboard
+xwaylandvideobridge-bin
+
 xdg-user-dirs-gtk
 gotify-dunst-git
-xwaylandvideobridge-bin

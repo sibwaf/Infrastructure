@@ -23,6 +23,10 @@
         name: snapd
         state: present
 
+    - name: "Install sudo"
+      ansible.builtin.package:
+        name: sudo
+        state: present
     - name: "Install microk8s"
       community.general.snap:
         name: microk8s

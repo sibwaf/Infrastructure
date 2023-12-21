@@ -6,6 +6,10 @@
     - "../vars.yaml"
 
   tasks:
+    - name: "Install openresolv"
+      ansible.builtin.package:
+        name: openresolv
+        state: present
     - name: "Install wireguard"
       ansible.builtin.package:
         name: wireguard

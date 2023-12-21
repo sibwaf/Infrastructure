@@ -9,6 +9,11 @@
     checksum: "{{ rclone_checksum[rclone_arch] }}"
     dest: "/tmp/rclone-{{ rclone_version }}.zip"
 
+- name: "Install unzip"
+  ansible.builtin.package:
+    name: "unzip"
+    state: "present"
+
 - name: "Unarchive rclone"
   ansible.builtin.unarchive:
     remote_src: true
@@ -23,3 +28,8 @@
     mode: "755"
     owner: "root"
     group: "root"
+
+- name: "Install fuse3"
+  ansible.builtin.package:
+    name: "fuse3"
+    state: "present"

@@ -20,7 +20,7 @@ spec:
             claimName: "{{ .Chart.Name }}"
       containers:
         - name: "{{ .Chart.Name }}"
-          image: "gotify/server-arm64:{{ .Chart.AppVersion }}"
+          image: "gotify/server:{{ .Chart.AppVersion }}"
           imagePullPolicy: "IfNotPresent"
           env:
             - name: "GOTIFY_DEFAULTUSER_NAME"

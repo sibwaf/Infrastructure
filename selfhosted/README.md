@@ -186,6 +186,10 @@ selfhosted_gotify_password: xxxxxx
 
 Requires opening UI to create an account and configure scrobbling.
 
+## Jellyfin
+
+Required opening UI to create an account and configure libraries. Media is mounted to `/library`.
+
 ## Transmission
 
 Configure the credentials.

@@ -1,0 +1,41 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "selectorLabels" . | nindent 6 }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "selectorLabels" . | nindent 8 }}
+    spec:
+      volumes:
+        - name: "config"
+          persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}"
+        - name: "cache"
+          emptyDir: {}
+        - name: "library"
+          hostPath:
+            path: "{{ .Values.selfhosted_storage_path }}/Media"
+            type: "DirectoryOrCreate"
+      containers:
+        - name: "{{ .Chart.Name }}"
+          image: "jellyfin/jellyfin:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: "http"
+              containerPort: 8096
+          volumeMounts:
+            - name: "config"
+              mountPath: "/config"
+            - name: "cache"
+              mountPath: "/cache"
+            - name: "library"
+              mountPath: "/library"
+              readOnly: true

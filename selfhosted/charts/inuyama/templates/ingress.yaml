@@ -4,6 +4,8 @@ metadata:
   name: "{{ .Chart.Name }}"
   labels:
     {{- include "labels" . | nindent 4 }}
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
 spec:
   rules:
     - host: "{{ .Chart.Name }}.{{ .Values.selfhosted_hostname }}"

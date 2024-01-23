@@ -41,4 +41,4 @@ laptop_dns_mapping: []
 
 # ---------
 
-local_kubeconfig_path: "~/.kube/kubeconfig"
+local_kubeconfig_path: "~/.kube/config"

@@ -29,10 +29,6 @@ spec:
             - name: "config"
               subPath: "homer.yaml"
               mountPath: "/www/assets/config.yml"
-          resources:
-            limits:
-              memory: "16Mi"
-              cpu: "100m"
         - name: "auth-proxy"
           image: "caddy:2.6.4"
           imagePullPolicy: "IfNotPresent"
@@ -64,7 +60,3 @@ spec:
             - name: "config"
               subPath: "Caddyfile"
               mountPath: "/etc/caddy/Caddyfile"
-          resources:
-            limits:
-              memory: "16Mi"
-              cpu: "100m"

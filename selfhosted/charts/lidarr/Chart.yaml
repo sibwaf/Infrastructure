@@ -1,4 +1,4 @@
 apiVersion: v2
 name: lidarr
-version: 1.4.0
-appVersion: "2.3.2-develop"
+version: 1.4.1
+appVersion: "2.5.0-develop"

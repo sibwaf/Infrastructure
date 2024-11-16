@@ -199,8 +199,8 @@ Configure the credentials.
 
 `vars.yaml`
 ```yaml
-username: xxxxxx
-password: xxxxxx
+selfhosted_transmission_username: xxxxxx
+selfhosted_transmission_password: xxxxxx
 ```
 
 ## Media: Lidarr, Sonarr, Radarr, Prowlarr

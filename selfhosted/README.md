@@ -27,6 +27,7 @@ selfhosted_storage_path: /mnt/storage # has default
 selfhosted_backup_partition_uuid: xxxxxx # optional
 selfhosted_backup_path: /mnt/backup # has default
 selfhosted_backup_password: xxxxxx # required
+selfhosted_backup_retention: 30d # has default
 
 selfhosted_seedbox_path: /mnt/seedbox # has default
 selfhosted_seedbox_ssh_port: 22 # has default

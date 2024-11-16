@@ -48,6 +48,10 @@
         src: resources/restic.timer
         dest: /etc/systemd/system/restic@.timer
 
+    - name: "Reload systemctl daemon"
+      ansible.builtin.systemd:
+        daemon_reload: true
+
     - name: "Configure dhcpcd"
       ansible.builtin.template:
         src: resources/dhcpcd.conf.j2

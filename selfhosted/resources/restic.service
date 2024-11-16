@@ -3,7 +3,7 @@ Description=Backup %I
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/restic backup --files-from /etc/restic/%I.files
+ExecStart=/usr/bin/sh -c '(restic backup --files-from /etc/restic/%I.files) && (if [ -n "$_RESTIC_KEEP_WITHIN" ]; then restic forget --prune --keep-within "$_RESTIC_KEEP_WITHIN"; fi)'
 EnvironmentFile=/etc/restic/%I.env
 
 [Install]

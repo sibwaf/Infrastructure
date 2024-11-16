@@ -38,33 +38,8 @@
         "type": "custom",
         "includeAll": false,
         "multi": false,
-        "options": [
-          {
-            "selected": true,
-            "text": "user_name",
-            "value": "user_name"
-          },
-          {
-            "selected": false,
-            "text": "friendly_name",
-            "value": "friendly_name"
-          },
-          {
-            "selected": false,
-            "text": "allowed_ips",
-            "value": "allowed_ips"
-          },
-          {
-            "selected": false,
-            "text": "public_key",
-            "value": "public_key"
-          }
-        ],
-        "current": {
-          "selected": true,
-          "text": "user_name",
-          "value": "user_name"
-        }
+        "query": "user_name,friendly_name,allowed_ips,public_key",
+        "current": {}
       }
     ]
   },

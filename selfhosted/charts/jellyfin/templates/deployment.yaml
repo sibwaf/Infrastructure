@@ -15,11 +15,12 @@ spec:
         {{- include "selectorLabels" . | nindent 8 }}
     spec:
       volumes:
-        - name: "config"
+        - name: "data"
           persistentVolumeClaim:
             claimName: "{{ .Chart.Name }}"
         - name: "cache"
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: "{{ .Chart.Name }}-cache"
         - name: "library"
           hostPath:
             path: "{{ .Values.selfhosted_storage_path }}/Media"
@@ -32,7 +33,7 @@ spec:
             - name: "http"
               containerPort: 8096
           volumeMounts:
-            - name: "config"
+            - name: "data"
               mountPath: "/config"
             - name: "cache"
               mountPath: "/cache"

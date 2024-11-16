@@ -79,6 +79,10 @@ services:
         url: "http://prowlarr.{{ .Values.selfhosted_hostname }}/"
         endpoint: "http://{{ .Values.selfhosted_hostname }}/proxy/prowlarr"
         type: "Prowlarr"
+      - name: "Immich"
+        subtitle: "Photo gallery"
+        logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/immich.png"
+        url: "http://immich.{{ .Values.selfhosted_hostname }}/"
 
   - name: "Downloads"
     items:

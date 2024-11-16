@@ -7,3 +7,15 @@ volumeBindingMode: WaitForFirstConsumer
 reclaimPolicy: Delete
 parameters:
   pvDir: /var/lib/kubernetes-storage
+
+---
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: app-cache
+provisioner: microk8s.io/hostpath
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Delete
+parameters:
+  pvDir: /var/lib/kubernetes-cache

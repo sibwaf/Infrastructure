@@ -18,6 +18,10 @@
       ansible.builtin.file:
         path: /var/lib/kubernetes-storage
         state: directory
+    - name: "Create cache directory for Kubernetes"
+      ansible.builtin.file:
+        path: /var/lib/kubernetes-cache
+        state: directory
 
     - name: "Install snapd"
       ansible.builtin.package:

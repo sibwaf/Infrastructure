@@ -62,6 +62,9 @@ selfhosted_gotify_password: xxxxxx # required
 selfhosted_grafana_username: xxxxxx # required
 selfhosted_grafana_password: xxxxxx # required
 
+selfhosted_immich_pgusername: xxxxxx # required
+selfhosted_immich_pgpassword: xxxxxx # required
+
 selfhosted_inuyama_username: xxxxxx # required
 selfhosted_inuyama_password: xxxxxx # required
 selfhosted_inuyama_exchangeratehost_token: xxxxxx # required
@@ -252,6 +255,18 @@ Requires opening UI to setup an account and configure.
     * TV -> sonarr
     * Movies -> radarr
 4. Add desired indexers in Indexers
+
+## Immich
+
+Configure the database credentials.
+
+`vars.yaml`
+```yaml
+selfhosted_immich_pgusername: xxxxxx
+selfhosted_immich_pgpassword: xxxxxx
+```
+
+Requires opening UI to configure everything else.
 
 ## Homer
 

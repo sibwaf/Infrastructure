@@ -1,0 +1,4 @@
+apiVersion: v2
+name: immich
+version: 1.0.1
+appVersion: "v1.120.2"

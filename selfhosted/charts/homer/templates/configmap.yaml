@@ -9,3 +9,6 @@ data:
     {{- .Files.Get "resources/Caddyfile" | nindent 4 }}
   homer.yaml: |-
     {{- include "homerConfig" . | nindent 4 }}
+binaryData:
+  victoria-metrics.png: |-
+    {{- .Files.Get "resources/victoria-metrics.png" | b64enc | nindent 4 }}

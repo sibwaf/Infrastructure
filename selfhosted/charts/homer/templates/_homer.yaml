@@ -26,7 +26,7 @@ services:
     items:
       - name: "VictoriaMetrics"
         subtitle: "Metrics collection and storage"
-        logo: "https://docs.victoriametrics.com/assets/images/favicon.svg"
+        logo: "assets/victoria-metrics.png"
         url: "http://victoria-metrics.{{ .Values.selfhosted_hostname }}/"
       - name: "Grafana"
         subtitle: "Dashboards"

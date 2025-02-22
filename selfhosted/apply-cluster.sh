@@ -6,8 +6,8 @@ read_property() {
     if [ -e "vars.yaml" ]; then
         value=$(yq .$1 vars.yaml)
         if [ "$value" != "null" ]; then
-            value=$(echo -n "$value" | tr -d '"')
-            echo "$value"
+            value=$(printf "%s" "$value" | tr -d '"')
+            printf "%s" "$value"
             return
         fi
     fi
@@ -15,8 +15,8 @@ read_property() {
     if [ -e "defaults.yaml" ]; then
         value=$(yq .$1 defaults.yaml)
         if [ "$value" != "null" ]; then
-            value=$(echo -n "$value" | tr -d '"')
-            echo "$value"
+            value=$(printf "%s" "$value" | tr -d '"')
+            printf "%s" "$value"
             return
         fi
     fi
@@ -35,12 +35,12 @@ transmission_ui_port=$(read_property seedbox_transmission_ui_port)
 merged_manifest=""
 for f in $(find selfhosted/kubernetes -name "*.yaml"); do
     manifest=$(cat "$f")
-    manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_hostname\s*}}#$hostname#g")
-    manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_storage_path\s*}}#$storage_path#g")
-    manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_backup_path\s*}}#$backup_path#g")
-    manifest=$(echo "$manifest" | sed "s#{{\s*selfhosted_seedbox_path\s*}}#$seedbox_path#g")
-    manifest=$(echo "$manifest" | sed "s#{{\s*seedbox_hostname\s*}}#$seedbox_hostname#g")
-    manifest=$(echo "$manifest" | sed "s#{{\s*seedbox_transmission_ui_port\s*}}#$transmission_ui_port#g")
+    manifest=$(echo "$manifest" | sed "s#{{[[:space:]]*selfhosted_hostname[[:space:]]*}}#$hostname#g")
+    manifest=$(echo "$manifest" | sed "s#{{[[:space:]]*selfhosted_storage_path[[:space:]]*}}#$storage_path#g")
+    manifest=$(echo "$manifest" | sed "s#{{[[:space:]]*selfhosted_backup_path[[:space:]]*}}#$backup_path#g")
+    manifest=$(echo "$manifest" | sed "s#{{[[:space:]]*selfhosted_seedbox_path[[:space:]]*}}#$seedbox_path#g")
+    manifest=$(echo "$manifest" | sed "s#{{[[:space:]]*seedbox_hostname[[:space:]]*}}#$seedbox_hostname#g")
+    manifest=$(echo "$manifest" | sed "s#{{[[:space:]]*seedbox_transmission_ui_port[[:space:]]*}}#$transmission_ui_port#g")
 
 merged_manifest="$merged_manifest
 ---

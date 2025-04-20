@@ -21,6 +21,14 @@ selfhosted_swap_size: 1024 # has default
 
 selfhosted_hostname: cluster.example # required
 
+selfhosted_groups: # has default
+  groupname: 2000
+
+selfhosted_users_for_apps: # has default
+  username:
+    uid: 1000
+    groups: ["groupname"]
+
 selfhosted_storage_partition_uuid: xxxxxx # optional
 selfhosted_storage_path: /mnt/storage # has default
 

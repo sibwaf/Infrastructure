@@ -35,6 +35,13 @@ spec:
         - name: "{{ .Chart.Name }}"
           image: "ghcr.io/linuxserver/radarr:{{ .Chart.AppVersion }}"
           imagePullPolicy: "IfNotPresent"
+          env:
+            - name: "PUID"
+              value: "{{ .Values.selfhosted_users_for_apps.radarr.uid }}"
+            - name: "PGID"
+              value: "{{ .Values.selfhosted_groups.managemedia }}"
+            - name: "UMASK"
+              value: "002"
           ports:
             - name: "http"
               containerPort: 7878

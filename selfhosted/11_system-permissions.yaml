@@ -1,0 +1,42 @@
+- name: "Configure users and groups"
+  hosts: selfhosted
+
+  vars_files:
+    - "../defaults.yaml"
+    - "../vars.yaml"
+
+  tasks:
+    - name: "Create managemedia group"
+      loop: "{{ selfhosted_groups | dict2items }}"
+      ansible.builtin.group:
+        name: "{{ item.key }}"
+        gid: "{{ item.value }}"
+        state: present
+
+    - name: "Create users for apps"
+      loop: "{{ selfhosted_users_for_apps | dict2items }}"
+      ansible.builtin.user:
+        name: "{{ item.key }}"
+        uid: "{{ item.value.uid }}"
+        groups: "{{ item.value.groups }}"
+        create_home: false
+        shell: "/usr/bin/false"
+
+    - name: "Set storage/Media permissions"
+      vars:
+        items:
+          - path: "{{ selfhosted_storage_path }}/Media"
+            owner: root
+          - path: "{{ selfhosted_storage_path }}/Media/TV"
+            owner: sonarr
+          - path: "{{ selfhosted_storage_path }}/Media/Movies"
+            owner: radarr
+          - path: "{{ selfhosted_storage_path }}/Media/Music"
+            owner: lidarr
+      loop: "{{ items }}"
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: directory
+        owner: "{{ item.owner }}"
+        group: managemedia
+        mode: "0775"

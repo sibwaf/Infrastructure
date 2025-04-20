@@ -22,6 +22,11 @@ spec:
         - name: "{{ .Chart.Name }}"
           image: "ghcr.io/linuxserver/prowlarr:{{ .Chart.AppVersion }}"
           imagePullPolicy: "IfNotPresent"
+          env:
+            - name: "PUID"
+              value: "{{ .Values.selfhosted_users_for_apps.prowlarr.uid }}"
+            - name: "UMASK"
+              value: "002"
           ports:
             - name: "http"
               containerPort: 9696

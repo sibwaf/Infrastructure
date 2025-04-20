@@ -12,6 +12,23 @@ vpn_xray_peers: []
 
 selfhosted_swap_size: 1024
 
+selfhosted_groups:
+  managemedia: 2000
+
+selfhosted_users_for_apps:
+  sonarr:
+    uid: 911
+    groups: ["managemedia"]
+  radarr:
+    uid: 912
+    groups: ["managemedia"]
+  lidarr:
+    uid: 913
+    groups: ["managemedia"]
+  prowlarr:
+    uid: 914
+    groups: []
+
 selfhosted_storage_path: /mnt/storage
 
 selfhosted_backup_path: /mnt/backup

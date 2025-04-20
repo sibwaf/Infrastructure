@@ -30,9 +30,11 @@ selfhosted_users_for_apps: # has default
     groups: ["groupname"]
 
 selfhosted_storage_partition_uuid: xxxxxx # optional
+selfhosted_storage_fstype: btrfs # required if selfhosted_storage_partition_uuid is present
 selfhosted_storage_path: /mnt/storage # has default
 
 selfhosted_backup_partition_uuid: xxxxxx # optional
+selfhosted_backup_fstype: btrfs # required if selfhosted_backup_partition_uuid is present
 selfhosted_backup_path: /mnt/backup # has default
 selfhosted_backup_password: xxxxxx # required
 selfhosted_backup_retention: 30d # has default

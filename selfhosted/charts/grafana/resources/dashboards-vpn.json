@@ -56,7 +56,7 @@
               "mode": "normal"
             }
           },
-          "unit": "decbytes"
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -90,7 +90,7 @@
               "mode": "normal"
             }
           },
-          "unit": "decbytes"
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -124,7 +124,7 @@
               "mode": "normal"
             }
           },
-          "unit": "decbytes"
+          "unit": "bytes"
         },
         "overrides": []
       },

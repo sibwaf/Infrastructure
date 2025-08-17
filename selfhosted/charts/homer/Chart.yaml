@@ -1,4 +1,4 @@
 apiVersion: v2
 name: homer
-version: 1.3.2
-appVersion: "v25.04.1"
+version: 1.3.3
+appVersion: "v25.08.1"

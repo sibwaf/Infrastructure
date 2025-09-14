@@ -1,4 +1,4 @@
 apiVersion: v2
 name: gotify
-version: 1.2.3
-appVersion: "2.6.3"
+version: 1.2.4
+appVersion: "2.7.2"

@@ -1,4 +1,4 @@
 apiVersion: v2
 name: radarr
-version: 1.5.1
-appVersion: "5.27.3-develop"
+version: 1.5.2
+appVersion: "5.28.0-develop"

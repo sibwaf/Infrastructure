@@ -1,4 +1,4 @@
 apiVersion: v2
 name: prowlarr
-version: 1.5.1
-appVersion: "2.0.3-develop"
+version: 1.5.2
+appVersion: "2.1.0-develop"

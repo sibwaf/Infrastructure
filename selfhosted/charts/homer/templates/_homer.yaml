@@ -21,6 +21,9 @@ services:
         subtitle: "Inventory management"
         url: "http://homebox.{{ .Values.selfhosted_hostname }}/"
         logo: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/homebox.png"
+      - name: "Tracktor"
+        subtitle: "Vehicle management"
+        url: "http://tracktor.{{ .Values.selfhosted_hostname }}/"
 
   - name: "Monitoring"
     items:

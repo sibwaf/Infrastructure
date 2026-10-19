@@ -2,6 +2,7 @@
   @lidarr {
     path /proxy/lidarr/api/v1/health
     path /proxy/lidarr/api/v1/queue/status
+    path /proxy/lidarr/api/v1/wanted/missing
   }
   route @lidarr {
     rewrite ?apikey={$LIDARR_TOKEN}
@@ -12,6 +13,8 @@
   @radarr {
     path /proxy/radarr/api/v3/health
     path /proxy/radarr/api/v3/queue
+    path /proxy/radarr/api/v3/queue/details
+    path /proxy/radarr/api/v3/wanted/missing
   }
   route @radarr {
     rewrite ?apikey={$RADARR_TOKEN}
@@ -22,6 +25,7 @@
   @sonarr {
     path /proxy/sonarr/api/v3/health
     path /proxy/sonarr/api/v3/queue
+    path /proxy/sonarr/api/v3/wanted/missing
   }
   route @sonarr {
     rewrite ?apikey={$SONARR_TOKEN}

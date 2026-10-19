@@ -15,6 +15,7 @@
         state: directory
     - name: "Configure storage drive mounting"
       when: selfhosted_storage_partition_uuid is defined
+      notify: "Reload systemctl daemon"
       ansible.posix.mount:
         path: "{{ selfhosted_storage_path }}"
         src: "PARTUUID={{ selfhosted_storage_partition_uuid }}"
@@ -29,6 +30,7 @@
         state: directory
     - name: "Configure archive drive mounting"
       when: selfhosted_archive_partition_uuid is defined
+      notify: "Reload systemctl daemon"
       ansible.posix.mount:
         path: "{{ selfhosted_archive_path }}"
         src: "PARTUUID={{ selfhosted_archive_partition_uuid }}"
@@ -42,6 +44,7 @@
         state: directory
     - name: "Configure backup drive mounting"
       when: selfhosted_backup_partition_uuid is defined
+      notify: "Reload systemctl daemon"
       ansible.posix.mount:
         path: "{{ selfhosted_backup_path }}"
         src: "PARTUUID={{ selfhosted_backup_partition_uuid }}"
@@ -54,17 +57,25 @@
         name: restic
         state: present
     - name: "Setup service for restic"
+      notify: "Reload systemctl daemon"
       ansible.builtin.copy:
         src: resources/restic.service
         dest: /etc/systemd/system/restic@.service
     - name: "Setup timer for restic"
+      notify: "Reload systemctl daemon"
       ansible.builtin.copy:
         src: resources/restic.timer
         dest: /etc/systemd/system/restic@.timer
 
-    - name: "Reload systemctl daemon"
-      ansible.builtin.systemd:
-        daemon_reload: true
+    - name: "Create journald config path"
+      ansible.builtin.file:
+        path: /etc/systemd/journald.conf.d
+        state: directory
+    - name: "Configure journald log retention"
+      notify: "Restart journald"
+      ansible.builtin.copy:
+        src: resources/journald_size.conf
+        dest: /etc/systemd/journald.conf.d/size.conf
 
     - name: "Configure dhcpcd"
       ansible.builtin.template:
@@ -75,3 +86,12 @@
         name: dhcpcd
         state: restarted
         enabled: true
+
+  handlers:
+    - name: "Reload systemctl daemon"
+      ansible.builtin.systemd:
+        daemon_reload: true
+    - name: "Restart journald"
+      ansible.builtin.systemd:
+        name: systemd-journald
+        state: restarted

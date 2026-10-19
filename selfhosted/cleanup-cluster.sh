@@ -4,6 +4,10 @@ kube_delete() {
     kubectl delete "$1" "$2" --ignore-not-found
 }
 
+helm_uninstall() {
+    helm uninstall "$1" --ignore-not-found
+}
+
 # navidrome
 kube_delete ingress navidrome
 kube_delete service navidrome
@@ -42,3 +46,5 @@ kube_delete secret samba-credentials
 # grafana
 kube_delete configmap grafana-dashboard-vpn
 kube_delete configmap grafana-dashboard-node-exporter
+
+helm_uninstall homebox

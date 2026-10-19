@@ -186,10 +186,6 @@ selfhosted_inuyama_server_key: |
   key
 ```
 
-## Homebox
-
-Requires opening UI to create an account.
-
 ## Gotify
 
 Configure the initial admin username/password and setup application/client tokens via UI.

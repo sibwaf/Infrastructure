@@ -18,6 +18,9 @@ spec:
         - name: "config"
           configMap:
             name: "{{ .Chart.Name }}"
+        - name: "data"
+          emptyDir:
+            sizeLimit: "1Gi"
       containers:
         - name: "{{ .Chart.Name }}"
           image: "grafana/grafana-oss:{{ .Chart.AppVersion }}"
@@ -61,3 +64,5 @@ spec:
               mountPath: "/dashboards/{{ base $path }}"
               readOnly: true
             {{- end }}
+            - name: "data"
+              mountPath: "/var/lib/grafana"

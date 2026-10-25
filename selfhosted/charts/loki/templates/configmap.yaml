@@ -1,0 +1,8 @@
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "{{ .Chart.Name }}"
+  labels:
+    {{- include "labels" . | nindent 4 }}
+data:
+  loki.yaml: {{ .Files.Get "resources/loki.yaml" | quote }}

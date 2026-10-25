@@ -9,12 +9,19 @@ spec:
     matchLabels:
       {{- include "selectorLabels" . | nindent 6 }}
   replicas: 1
+  strategy:
+    type: "Recreate"
   template:
     metadata:
       labels:
         {{- include "selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ .Files.Get "resources/loki.yaml" | sha256sum | quote }}
     spec:
       volumes:
+        - name: "config"
+          configMap:
+            name: "{{ .Chart.Name }}"
         - name: "data"
           persistentVolumeClaim:
             claimName: "{{ .Chart.Name }}"
@@ -26,5 +33,9 @@ spec:
             - name: "http"
               containerPort: 3100
           volumeMounts:
+            - name: "config"
+              subPath: "loki.yaml"
+              mountPath: "/etc/loki/local-config.yaml"
+              readOnly: true
             - name: "data"
               mountPath: "/loki"

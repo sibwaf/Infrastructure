@@ -1,4 +1,4 @@
 apiVersion: v2
 name: jellyfin
-version: 1.2.4
-appVersion: "10.11.11"
+version: 1.2.5
+appVersion: "12.3"

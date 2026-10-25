@@ -1,4 +1,4 @@
 apiVersion: v2
 name: victoria-metrics
-version: 1.3.8
-appVersion: "v1.146.0"
+version: 1.3.9
+appVersion: "v1.154.1"

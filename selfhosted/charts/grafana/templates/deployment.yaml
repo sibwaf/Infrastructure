@@ -23,7 +23,7 @@ spec:
             sizeLimit: "1Gi"
       containers:
         - name: "{{ .Chart.Name }}"
-          image: "grafana/grafana-oss:{{ .Chart.AppVersion }}"
+          image: "grafana/grafana:{{ .Chart.AppVersion }}"
           imagePullPolicy: "IfNotPresent"
           env:
             - name: "GF_SECURITY_ADMIN_USER"
